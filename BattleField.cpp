@@ -59,7 +59,7 @@ void BattleField::Draw()
 			<< "드로우한 카드를 삭제합니다." << endl;
 	}
 	else
-		cardsOfHand->push_back(card);
+		cardsOfHand[turn].push_back(card);
 	Sleep(1000);
 }
 

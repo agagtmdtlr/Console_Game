@@ -60,7 +60,7 @@ public:
 	void Use();
 	void AttackSkill(Card * target = NULL);
 	void FirstSkill(Card * target = NULL);
-	void Info() {}
+	void Info();
 	void detail();
 };
 

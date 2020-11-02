@@ -40,6 +40,11 @@ void AldorPeaceKeeper::Use()
 	Creature::Use();
 }
 
+void AldorPeaceKeeper::Info()
+{
+	Creature::Info();
+}
+
 void AldorPeaceKeeper::detail()
 {
 	Creature::detail();

@@ -17,6 +17,8 @@ void GameManage::PlayGaming()
 			system("cls");
 			field->ShowField();
 			system("pause");
+			field->nPlayerTurn += 1;
 		}
+		
 	}
 }

@@ -12,6 +12,7 @@ public:
 	void Attack(Card * target = NULL);
 	void FirstSkill(Card * target = NULL);
 	void Use();
+	void Info();
 	void detail();
 };
 
