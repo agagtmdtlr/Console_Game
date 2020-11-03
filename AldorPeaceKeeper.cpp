@@ -16,11 +16,11 @@ void AldorPeaceKeeper::FirstSkill(Card * target)
 	int e_turn = (battleFieldOfCard->nPlayerTurn + 1) % 2;
 	// 상대 필드에 카드가 없으면 효과 미발동
 	if (battleFieldOfCard->cardsOfField[e_turn].size() == 0) return;
-	int inputNum;
+	int inputNum = 0;
 	while (1)
 	{
 		cout << "적을 선택하시오 : ";
-		cin >> inputNum;
+		inputNum = InputVariable<int>(inputNum);
 
 		if (inputNum >= battleFieldOfCard->cardsOfField[e_turn].size())
 		{
@@ -32,7 +32,8 @@ void AldorPeaceKeeper::FirstSkill(Card * target)
 		}		
 	}
 	Creature * enemy = (Creature *)battleFieldOfCard->cardsOfField[e_turn][inputNum];	
-	enemy->SetPower(1);
+	
+	enemy->SetPower(-(enemy->GetPower()-1));
 }
 
 void AldorPeaceKeeper::Use()

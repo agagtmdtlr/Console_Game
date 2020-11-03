@@ -27,7 +27,7 @@ public:
 
 	void Draw();	
 
-	void Choice(Card * card);
+	bool Choice();
 
 	void DeleteCards();
 

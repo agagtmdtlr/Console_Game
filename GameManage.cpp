@@ -56,11 +56,14 @@ void GameManage::PlayGaming()
 
 bool GameManage::SelectAction()
 {
-	int inputNum;
+	int inputNum=0;
+	unsigned int myCreatureIndex = 0;
+	unsigned int enemyCreatureIndex = 0;
+	int selectNum = 0;
 	int turn = field->nPlayerTurn % 2;
 	E_ACTION myAction;
 	cout << "\n액션을 선택하세요(0.하수인 공격 1.패 카드 사용 2.턴을 마친다 3.항복한다)\n : ";
-	cin >> inputNum;
+	inputNum = InputVariable<int>(inputNum);
 
 	myAction = (E_ACTION)inputNum;
 
@@ -68,14 +71,15 @@ bool GameManage::SelectAction()
 	switch (myAction)
 	{
 	case E_ACTION::ATTACK:
-		unsigned int myCreatureIndex;
-		unsigned int enemyCreatureIndex;
+		
+
 		cout << "공격할 나의 하수인을 선택하세요 : ";
-		cin >> myCreatureIndex;
+		myCreatureIndex = InputVariable<unsigned int>(myCreatureIndex); // input test
 		if (myCreatureIndex >= field->cardsOfField[turn].size())
 			return false;
+
 		cout << "적 하수인?(0)상대 영웅?(1) : ";
-		cin >> enemyCreatureIndex;
+		enemyCreatureIndex = InputVariable<unsigned int>(enemyCreatureIndex);
 		if (enemyCreatureIndex == 1)
 		{
 			field->Attack(
@@ -86,7 +90,7 @@ bool GameManage::SelectAction()
 		else
 		{
 			cout << "공격할 적의 하수인을 선택하세요 : ";
-			cin >> enemyCreatureIndex;
+			enemyCreatureIndex = InputVariable<unsigned int>(enemyCreatureIndex);
 			if (myCreatureIndex >= field->cardsOfField[abs(turn - 1)].size())
 				return false;
 			//두카드의 싸움
@@ -98,14 +102,8 @@ bool GameManage::SelectAction()
 		
 		return true;		
 		break;
-	case E_ACTION::USE:
-		int selectNum;
-		cout << "패에서 사용할 카드를 선택하세요 : " ;
-		cin >> selectNum;
-		if (selectNum >= field->cardsOfHand[turn].size())
-			return false;
-		field->cardsOfHand[turn][selectNum]->Use();
-		return true;
+	case E_ACTION::USE:		
+		return field->Choice();
 		break;
 	case E_ACTION::END:
 		isEndTurn = true;

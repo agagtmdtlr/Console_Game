@@ -9,6 +9,9 @@ BattleField::BattleField()
 {
 	for (int i = 0; i < 2; i++)
 		User[i] = new Creature(this, 0, "Player" + i, 0, 5, 0, false, false);
+	cardsOfDeck->reserve(10);
+	cardsOfDeck->reserve(5);
+	cardsOfDeck->reserve(5);
 }
 
 void BattleField::Attack(Card * myCard, Card * yourCard)
@@ -66,32 +69,40 @@ void BattleField::Draw()
 	Sleep(1000);
 }
 
-void BattleField::Choice(Card * card)
+bool BattleField::Choice()
 {
 	
 	int turn = nPlayerTurn % 2;
-	int inputNum;
+	int inputNum = 0;
 	int SelectNum;
 
 	cout << "사용할 카드를 선택하시오 : ";
-	cin >> inputNum;
+	inputNum = InputVariable<int>(inputNum); // input
 	SelectNum = inputNum;
 
+	if (SelectNum >= cardsOfHand[turn].size())
+		return false;
 	cout << "===========================" << endl;
 	cout << "======   카드 설명 :  ======" << endl;
 	cout << "===========================" << endl;
-	card->detail();
+	cardsOfHand[turn][SelectNum]->detail();
 	cout << "정말 사용하시겠습니까(Yes.1 No.0) : ";
-	cin >> inputNum;
+	inputNum = InputVariable<int>(inputNum); // input
 
 	if (inputNum == 1)
 	{
 		Card * card = cardsOfHand[turn][SelectNum];		
 		cardsOfHand[turn][SelectNum]->Use();
+		return true;
 	}
 	else if (inputNum == 0)
-		return;
-	else cout << "잘못 입력하셨습니다." << endl;
+		return false;
+	else
+	{
+		cout << "잘못 입력하셨습니다." << endl;
+		return false;
+	}
+		
 	
 }
 

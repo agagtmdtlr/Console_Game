@@ -59,9 +59,9 @@ public:
 	
 	
 	void AttackSkill(Card * target = NULL);
-	void FirstSkill(Card * target = NULL);
-	virtual void Use();
-	virtual void Info();
-	virtual void detail();
+	virtual void FirstSkill(Card * target = NULL);
+	virtual void Use() override;
+	virtual void Info() override;
+	virtual void detail() override;
 };
 

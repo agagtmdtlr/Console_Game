@@ -1,3 +1,10 @@
 ﻿C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets(391,5): warning MSB8028: The intermediate directory (x64\Debug\) contains files shared from another project (HeartStone.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+  AldorPeaceKeeper.cpp
+  BattleField.cpp
+  Card.cpp
+  Creature.cpp
   GameManage.cpp
-  HeartStone.vcxproj -> D:\dev\dev_project\HeartStone\Console_Game\x64\Debug\HearthStone.exe
+  Magic.cpp
+  main.cpp
+  Generating Code...
+  HeartStone.vcxproj -> D:\dev\dev_project\HearthStone\Console_Game\x64\Debug\HearthStone.exe
