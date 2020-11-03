@@ -17,8 +17,8 @@ public:
 	int GetCost() { return nCost; }		
 	bool GetDelete() { return isDelete; }
 	void SetDelete(bool val) { isDelete = val; }
-	void Use(){}
-	void Info(){}
-	void detail(){}
+	virtual void Use(){}
+	virtual void Info(){}
+	virtual void detail(){}
 };
 

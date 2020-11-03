@@ -16,6 +16,9 @@ void BattleField::Attack(Card * myCard, Card * yourCard)
 	Creature * mine = (Creature *)myCard;
 	Creature * your = (Creature *)yourCard;
 
+	if (mine->GetAttackCount() == 0)
+		return;
+
 	// 공격전 사용 가능 효과 발동
 	mine->AttackSkill(your);
 	your->AttackSkill(mine);
@@ -94,65 +97,69 @@ void BattleField::Choice(Card * card)
 
 void BattleField::DeleteCards()
 {
-	int turn = nPlayerTurn % 2;
 	int i = 0;
-	while (1)
+	for (int turn = 0; turn < 2; turn++)
 	{
-		if (cardsOfDeck[turn][i]->GetDelete() == true)
+		i = 0;
+		while (1)
 		{
-			delete cardsOfDeck[turn][i];
-			cardsOfDeck[turn].erase(cardsOfDeck[turn].begin() + i);
-		}
-		else
-		{
-			i++;
+			if (i >= cardsOfDeck[turn].size())
+				break;
+			if (cardsOfDeck[turn][i]->GetDelete() == true)
+			{
+				delete cardsOfDeck[turn][i];
+				cardsOfDeck[turn].erase(cardsOfDeck[turn].begin() + i);
+			}
+			else
+			{
+				i++;
+			}
 		}
 
-		if (i >= cardsOfDeck[turn].size())
-			break;
+		i = 0;
+		while (1)
+		{
+			if (i >= cardsOfHand[turn].size())
+				break;
+			if (cardsOfHand[turn][i]->GetDelete() == true)
+			{
+				delete cardsOfHand[turn][i];
+				cardsOfHand[turn].erase(cardsOfHand[turn].begin() + i);
+			}
+			else
+			{
+				i++;
+			}
+		}
+
+		i = 0;
+		while (1)
+		{
+			if (i >= cardsOfField[turn].size())
+				break;
+			if (cardsOfField[turn][i]->GetDelete() == true)
+			{
+				delete cardsOfField[turn][i];
+				cardsOfField[turn].erase(cardsOfField[turn].begin() + i);
+			}
+			else
+			{
+				i++;
+			}
+		}
 	}
-
-	i = 0;
-	while (1)
-	{
-		if (cardsOfHand[turn][i]->GetDelete() == true)
-		{
-			delete cardsOfHand[turn][i];
-			cardsOfHand[turn].erase(cardsOfHand[turn].begin() + i);
-		}
-		else
-		{
-			i++;
-		}
-
-		if (i >= cardsOfHand[turn].size())
-			break;
-	}
-
-	i = 0;
-	while (1)
-	{
-		if (cardsOfField[turn][i]->GetDelete() == true)
-		{
-			delete cardsOfField[turn][i];
-			cardsOfField[turn].erase(cardsOfField[turn].begin() + i);
-		}
-		else
-		{
-			i++;
-		}
-
-		if (i >= cardsOfField[turn].size())
-			break;
-	}
+	
 }
 
 void BattleField::ShowField()
 {
 	int turn = nPlayerTurn % 2;
 	int e_turn = 1 - turn;
+	Creature * myPlayerBody = (Creature *)User[turn];
+	Creature * enemyPlayerBody = (Creature *)User[e_turn];
 
 	cout << "PLAYER" << turn << " TURN" << endl;
+	cout << "\t\t상대 체력 : " << enemyPlayerBody->GetShield() << endl;
 	cout << "현재 상대의 덱에 남은 카드 수 : " 
 		<< cardsOfDeck[e_turn].size() << endl;
 	cout << "상대 패 : ";
@@ -181,8 +188,10 @@ void BattleField::ShowField()
 		cout << "\t";
 	}
 	cout << endl;
-	cout << "현재 상대의 덱에 남은 카드 수 : "
+	cout << "현재 나의 덱에 남은 카드 수 : "
 		<< cardsOfDeck[turn].size() << endl;
+	cout << "\t\t나의 체력 : " << myPlayerBody->GetShield() << endl;
+	cout << "남은 코스트 : " << cost[turn];
 		
 
 
@@ -190,33 +199,35 @@ void BattleField::ShowField()
 
 void BattleField::Init()
 {
+	nPlayerTurn = 0;
 	// 유저 정보 초기화
 	for (int i = 0; i < 2; i++)
 	{
 		cost[i] = 0;
-		if(User[i] != nullptr)
-			delete User[i];
+		delete User[i];
 		User[i] = new Creature(this, 0, "Player" + i, 0, 5, 0, false, false);
 	}
 
 	// 안에 자료 비우기
 	for (int i = 0; i < 2; i++)
 	{		
-		while (!cardsOfField[i].empty())
+		for (int j = 0; j < cardsOfField[i].size(); j++)
 		{
-			delete cardsOfDeck[i].back();
-			cardsOfDeck[i].pop_back();
-		}		
-		while (!cardsOfDeck[i].empty())
-		{
-			delete cardsOfDeck[i].back();
-			cardsOfDeck[i].pop_back();
+			delete cardsOfField[i][j];
 		}
-		while (!cardsOfHand[i].empty())
+		cardsOfField[i].clear();
+
+		for (int j = 0; j < cardsOfDeck[i].size(); j++)
 		{
-			delete cardsOfHand[i].back();
-			cardsOfHand[i].pop_back();
+			delete cardsOfDeck[i][j];
 		}
+		cardsOfDeck[i].clear();
+
+		for (int j = 0; j < cardsOfHand[i].size(); j++)
+		{
+			delete cardsOfHand[i][j];
+		}
+		cardsOfHand[i].clear();		
 	}	
 
 	for (int i = 0; i < 2; i++)
@@ -231,6 +242,18 @@ void BattleField::Init()
 bool BattleField::CheckEnd()
 {
 	for (int i = 0; i < 2; i++)
-		if (User[i]->GetDelete() == true) return true;
+	{
+		if (User[i]->GetDelete() == true)
+		{
+			system("cls");
+			Sleep(1000);
+			cout << "아니! 이럴수가!" << endl;
+			Sleep(1000);
+			cout << "PLAYER" << (i + 1) % 2 << "의 승리입니다 축하합니다!!!" << endl;
+			Sleep(500);
+			cout << "게임을 종료합니다" << endl;
+			return true;
+		}
+	}
 	return false;
 }

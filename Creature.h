@@ -57,10 +57,11 @@ public:
 
 	bool GetAgro() { return isAgro; }
 	
-	void Use();
+	
 	void AttackSkill(Card * target = NULL);
 	void FirstSkill(Card * target = NULL);
-	void Info();
-	void detail();
+	virtual void Use();
+	virtual void Info();
+	virtual void detail();
 };
 

@@ -26,7 +26,7 @@ void Creature::Use()
 		cout << "=================================" << endl;
 		cout << "==" << strName << "를(을) 소환합니다==" << endl;
 		cout << "=================================" << endl;
-		FirstSkill();
+		this->FirstSkill();
 		battleFieldOfCard->cardsOfField[turn].push_back(new Creature(*this));
 		isDelete = true;
 	}

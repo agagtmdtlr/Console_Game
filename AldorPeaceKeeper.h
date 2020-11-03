@@ -11,8 +11,8 @@ public:
 	AldorPeaceKeeper(BattleField * field);
 	void Attack(Card * target = NULL);
 	void FirstSkill(Card * target = NULL);
-	void Use();
-	void Info();
-	void detail();
+	virtual void Use();
+	virtual void Info();
+	virtual void detail();
 };
 

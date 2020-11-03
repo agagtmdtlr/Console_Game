@@ -7,12 +7,3 @@
 
 using namespace std;
 
-enum class E_ACTION
-{
-	DRAW,HAND,FIELD,GG
-};
-
-enum class E_FIELD_ACTION
-{
-	ATTACK,
-};
