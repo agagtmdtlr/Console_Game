@@ -7,6 +7,11 @@
 
 using namespace std;
 
+enum class event
+{
+	BEGIN,END,DEAL,ATTACK,FIELD
+};
+
 template <typename T>
 T InputVariable(T val)
 {

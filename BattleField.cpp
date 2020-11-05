@@ -166,8 +166,8 @@ void BattleField::ShowField()
 {
 	int turn = nPlayerTurn % 2;
 	int e_turn = 1 - turn;
-	Creature * myPlayerBody = (Creature *)User[turn];
-	Creature * enemyPlayerBody = (Creature *)User[e_turn];
+	Creature * myPlayerBody =dynamic_cast<Creature *>(User[turn]);
+	Creature * enemyPlayerBody = dynamic_cast<Creature *>(User[e_turn]);
 
 	cout << "PLAYER" << turn << " TURN" << endl;
 	cout << "\t\t상대 체력 : " << enemyPlayerBody->GetShield() << endl;

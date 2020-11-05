@@ -9,14 +9,15 @@ protected:
 	int nCost;	
 	string strName;
 	BattleField * battleFieldOfCard;
-	bool isDelete = false;
+	bool isDelete;
 public:
-	Card() {};
+	Card() {};	
 	Card(int cost, string name, BattleField * field);
+	virtual ~Card() {}
 
-	int GetCost() { return nCost; }		
-	bool GetDelete() { return isDelete; }
-	void SetDelete(bool val) { isDelete = val; }
+	virtual int GetCost() { return nCost; }		
+	virtual bool GetDelete() { return isDelete; }
+	virtual void SetDelete(bool val) { isDelete = val; }
 	virtual void Use(){}
 	virtual void Info(){}
 	virtual void detail(){}

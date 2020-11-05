@@ -9,7 +9,9 @@ class AldorPeaceKeeper :
 private:
 public:
 	AldorPeaceKeeper(BattleField * field);
-	void Attack(Card * target = NULL);
+	virtual ~AldorPeaceKeeper(){}
+
+	virtual void Attack(Card * target = NULL);
 	virtual void FirstSkill (Card * target = NULL) override;
 	virtual void Use() override;
 	virtual void Info() override;

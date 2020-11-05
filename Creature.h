@@ -21,6 +21,7 @@ protected:
 	bool isHolyShiled; // 천상의 보호막 한번의 공격을 막습니다.
 
 public:
+	Creature(){}
 	Creature(
 		BattleField * field,
 		int cost, string name,
@@ -28,37 +29,39 @@ public:
 		int attcount,
 		bool agro, bool holy
 		);
+	virtual ~Creature(){}
 
-	int GetPower() { return nPower; }
-	void SetPower(int val) { nPower += val; }
+	virtual int GetPower() { return nPower; }
+	virtual void SetPower(int val) 
+	{
+		nPower += val; 
+		if (nPower < 0) nPower = 0;
+	}
 
-	int GetShield() { return nShield; }
-	void SetShield(int val)
+	virtual int GetShield() { return nShield; }
+	virtual void SetShield(int val)
 	{
 		nShield += val;
 		if (nShield <= 0)
 			isDelete = true;
 	}
 
-	int GetPowerOrigin() { return nPowerOrigin; }
-	void SetPowerOrigin(int val) { nPowerOrigin += val; }
+	virtual int GetPowerOrigin() { return nPowerOrigin; }	
+	virtual int GetShieldOrigin() { return nShieldOrigin; }	
 
-	int GetShieldOrigin() { return nShieldOrigin; }
-	void SetShieldOrigin(int val) { nShieldOrigin += val; }
+	virtual int GetAttackCount() { return nAttackCount; }
+	virtual void SetAttackCount(int val) { nAttackCount += val; }
 
-	int GetAttackCount() { return nAttackCount; }
-	void SetAttackCount(int val) { nAttackCount += val; }
-
-	int GetAttackCountOrigin() { return nAttackCountOrigin; }
-	void SetAttackCountOrigin(int val) { nAttackCountOrigin += val; }
+	virtual int GetAttackCountOrigin() { return nAttackCountOrigin; }
+	virtual void SetAttackCountOrigin(int val) { nAttackCountOrigin += val; }
 		
-	bool GetHolyShiled() { return isHolyShiled; }
-	void SetHolyShield(bool val) { isHolyShiled = val; }
+	virtual bool GetHolyShiled() { return isHolyShiled; }
+	virtual void SetHolyShield(bool val) { isHolyShiled = val; }
 
-	bool GetAgro() { return isAgro; }
+	virtual bool GetAgro() { return isAgro; }
 	
 	
-	void AttackSkill(Card * target = NULL);
+	virtual void AttackSkill(Card * target = NULL);
 	virtual void FirstSkill(Card * target = NULL);
 	virtual void Use() override;
 	virtual void Info() override;

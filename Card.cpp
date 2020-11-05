@@ -3,7 +3,7 @@
 
 
 Card::Card(int cost, string name, BattleField * field)
-	:nCost(cost), strName(name),battleFieldOfCard(field)
+	:nCost(cost), strName(name),battleFieldOfCard(field),isDelete(false)
 {}
 
 

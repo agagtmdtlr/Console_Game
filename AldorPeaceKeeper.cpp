@@ -31,7 +31,7 @@ void AldorPeaceKeeper::FirstSkill(Card * target)
 			break;
 		}		
 	}
-	Creature * enemy = (Creature *)battleFieldOfCard->cardsOfField[e_turn][inputNum];	
+	Creature * enemy = dynamic_cast<Creature *>(battleFieldOfCard->cardsOfField[e_turn][inputNum]);
 	
 	enemy->SetPower(-(enemy->GetPower()-1));
 }
