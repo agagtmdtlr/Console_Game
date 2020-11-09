@@ -39,7 +39,7 @@
     <ClCompile Include="GameManage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Observer.cpp">
+    <ClCompile Include="IObserver.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -65,7 +65,7 @@
     <ClInclude Include="GameManage.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Observer.h">
+    <ClInclude Include="IObserver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -3,6 +3,7 @@
 
 
 class BattleField;
+class IObserver;
 
 class Creature :
 	public Card
@@ -17,7 +18,13 @@ protected:
 	int nAttackCount;
 	int nAttackCountOrigin;
 
-	bool isAgro; // 도발 무조건 이 대상을 우선으로 공격해야 함	
+	
+
+	bool isAgro; // 도발 무조건 이 대상을 우선으로 공격해야 함
+	/*
+	어그로는 어떻게 구현하면 어그로가 아닌 상대를 공격하지 못하게 막을 수
+	있을까요?
+	*/
 	bool isHolyShiled; // 천상의 보호막 한번의 공격을 막습니다.
 
 public:
@@ -33,18 +40,13 @@ public:
 
 	virtual int GetPower() { return nPower; }
 	virtual void SetPower(int val) 
-	{
+	{		
 		nPower += val; 
-		if (nPower < 0) nPower = 0;
+		if (nPower < 0) nPower = 0;		
 	}
 
 	virtual int GetShield() { return nShield; }
-	virtual void SetShield(int val)
-	{
-		nShield += val;
-		if (nShield <= 0)
-			isDelete = true;
-	}
+	virtual void SetShield(int val);	
 
 	virtual int GetPowerOrigin() { return nPowerOrigin; }	
 	virtual int GetShieldOrigin() { return nShieldOrigin; }	
@@ -58,13 +60,12 @@ public:
 	virtual bool GetHolyShiled() { return isHolyShiled; }
 	virtual void SetHolyShield(bool val) { isHolyShiled = val; }
 
-	virtual bool GetAgro() { return isAgro; }
+	virtual bool GetAgro() { return isAgro; }	
 	
-	
-	virtual void AttackSkill(Card * target = NULL);
-	virtual void FirstSkill(Card * target = NULL);
+	virtual void AttackSkill(Card * target);
+	virtual void FirstSkill();
 	virtual void Use() override;
 	virtual void Info() override;
-	virtual void detail() override;
+	virtual void detail() override;	
 };
 

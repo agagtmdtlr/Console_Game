@@ -2,6 +2,7 @@
 #include "stdafx.h"
 #include "Creature.h"
 #include "BattleField.h"
+#include "IObserver.h"
 
 Creature::Creature(
 	BattleField * field,
@@ -12,9 +13,35 @@ Creature::Creature(
 	:Card(cost, name,field),
 	nPower(power), nShield(shield),
 	nPowerOrigin(power), nShieldOrigin(shield),
-	nAttackCount(attcount), nAttackCountOrigin(attcount),	
+	nAttackCount(0), nAttackCountOrigin(attcount),	
 	isAgro(agro),isHolyShiled(holy)
 {}
+
+void Creature::SetShield(int val)
+{
+	if (isHolyShiled && val < 0)
+	{
+		isHolyShiled = false;
+		return;
+	}
+	int result = nShield + val;
+	// 최대 체력을 넘어갈수 가 없다.
+	if (result > nShieldOrigin) result = nShieldOrigin;
+	EVENT event;
+	if (result - nShield < 0)
+		event = EVENT::DAMAGE;
+	// 기존 체력 보다 올라가야 회복으로 판정된다.
+	else if (result - nShield > 0)
+		event = EVENT::HEAL;
+	nShield = result;
+	
+	ExcuteObserver(event);
+	if (nShield <= 0)
+	{
+		SetDelete(true);		
+	}
+		
+}
 
 void Creature::Use()
 {
@@ -28,6 +55,7 @@ void Creature::Use()
 		cout << "=================================" << endl;
 		this->FirstSkill();
 		battleFieldOfCard->cardsOfField[turn].push_back(new Creature(*this));
+		Card::Use();
 		isDelete = true;
 	}
 	else
@@ -39,14 +67,12 @@ void Creature::Use()
 	Sleep(1000);
 }
 
-
-
 void Creature::AttackSkill(Card * target)
 {
 	return;
 }
 
-void Creature::FirstSkill(Card * target)
+void Creature::FirstSkill()
 {
 	return;
 }
@@ -73,6 +99,7 @@ void Creature::detail()
 	if (isHolyShiled) cout << "보유" << endl;
 	else cout << "없음" << endl;
 }
+
 
 
 

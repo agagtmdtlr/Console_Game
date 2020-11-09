@@ -11,7 +11,7 @@ void AldorPeaceKeeper::Attack(Card * target)
 {
 }
 
-void AldorPeaceKeeper::FirstSkill(Card * target)
+void AldorPeaceKeeper::FirstSkill()
 {
 	int e_turn = (battleFieldOfCard->nPlayerTurn + 1) % 2;
 	// 상대 필드에 카드가 없으면 효과 미발동

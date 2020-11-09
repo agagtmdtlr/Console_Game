@@ -16,16 +16,21 @@ void GameManage::PlayGaming()
 		while (!isEndGame)
 		{
 			system("cls");
+			field->CallObservers(field->nPlayerTurn % 2,nullptr, EVENT::BEGIN);
+			// 턴 시작
+			isEndTurn = false;
+			// 코스트 부여
 			int thisTurnCost = field->nPlayerTurn / 2 + 3;
 			if (thisTurnCost > field->maXCost)
 				field->cost[field->nPlayerTurn % 2] = field->maXCost;
 			else
 				field->cost[field->nPlayerTurn % 2] = thisTurnCost;
+			// 드로우
 			field->Draw();
-			isEndTurn = false;
+			
 			while (!isEndTurn)
 			{
-				system("cls");
+				system("cls");				
 				field->ShowField();
 				// if Active changed the field refresh field output
 				isChangeField = SelectAction();
@@ -34,19 +39,14 @@ void GameManage::PlayGaming()
 					system("cls");
 					field->ShowField();
 					Sleep(1000);
-				}
-					
+				}					
 				// if exhausted of user hp end the game
-				if (field->CheckEnd())
-				{
-					isEndGame = true;
-					break;
-				}
+				if (field->CheckEnd()) isEndGame = true;
 				// to delete died creature or used cards 
 				field->DeleteCards();
-				//system("pause");
 			}
 			// 다음 유저의 턴으로 넘긴다.
+			field->CallObservers(field->nPlayerTurn % 2, nullptr, EVENT::END);
 			field->nPlayerTurn += 1;
 		}		
 	}

@@ -1,7 +1,6 @@
 #pragma once
 #include "stdafx.h"
 #include "BattleField.h"
-#include "Card.h"
 #include "Creature.h"
 #include "AldorPeaceKeeper.h"
 
@@ -15,33 +14,27 @@ BattleField::BattleField()
 }
 
 void BattleField::Attack(Card * myCard, Card * yourCard)
-{
-	Creature * mine = (Creature *)myCard;
-	Creature * your = (Creature *)yourCard;
+{		
+	Creature * mine = dynamic_cast<Creature *>(myCard);
+	Creature * your = dynamic_cast<Creature *>(yourCard);
 
 	if (mine->GetAttackCount() == 0)
+	{
+		cout << "이번 턴에 더 이상 공격할 수 없습니다." << endl;
+		Sleep(1000);
 		return;
-
-	// 공격전 사용 가능 효과 발동
-	mine->AttackSkill(your);
-	your->AttackSkill(mine);
-
-	// 천상의 보호막 있으면 데미지 안받음
-	mine->SetAttackCount(-1);
-
-	if (mine->GetHolyShiled() == false)
+	}
+	if (CheckIsCanAttack(your) == true)
+	{
+		mine->SetAttackCount(-1);
 		mine->SetShield(-(your->GetPower()));
+		your->SetShield(-(mine->GetPower()));		
+	}
 	else
-		mine->SetHolyShield(false);
-
-	if (your->GetHolyShiled() == false)
-		your->SetShield(-(mine->GetPower()));
-	else
-		your->SetHolyShield(false);
-
-	// 공격후 사용 가능 효과 발동
-	mine->AttackSkill(your);
-	your->AttackSkill(mine);
+	{
+		cout << "해당 하수인을 공격할 수가 없습니다." << endl;
+		Sleep(1000);
+	}	
 }
 
 void BattleField::Draw()
@@ -58,9 +51,14 @@ void BattleField::Draw()
 
 	// 덱이 비지 않았을 경우
 	Card* card = cardsOfDeck[turn].back();	
+	for (int i = 0; i < observers[turn].size(); i++)
+	{
+		observers[turn][i]->onNotify(*card, EVENT::DRAW);
+	}
 	cardsOfDeck[turn].pop_back();	
 	if (cardsOfHand[turn].size() >= 5)
 	{
+		delete card;
 		cout << "보유할 수 있는 카드가 한계입니다." << endl
 			<< "드로우한 카드를 삭제합니다." << endl;
 	}
@@ -93,6 +91,8 @@ bool BattleField::Choice()
 	{
 		Card * card = cardsOfHand[turn][SelectNum];		
 		cardsOfHand[turn][SelectNum]->Use();
+		// 필드에 카드 낼 시에 발생하는 효과 호출
+		CallObservers(turn, *cardsOfHand[turn][SelectNum], EVENT::FIELD);			
 		return true;
 	}
 	else if (inputNum == 0)
@@ -204,8 +204,6 @@ void BattleField::ShowField()
 	cout << "\t\t나의 체력 : " << myPlayerBody->GetShield() << endl;
 	cout << "남은 코스트 : " << cost[turn];
 		
-
-
 }
 
 void BattleField::Init()
@@ -267,4 +265,55 @@ bool BattleField::CheckEnd()
 		}
 	}
 	return false;
+}
+
+bool BattleField::CheckIsCanAttack(Creature * target)
+{
+	bool isAgroOnField = false;
+	int enemyTurn = 1 - nPlayerTurn % 2;
+	for (int i = 0; i < cardsOfField[enemyTurn].size(); i++)
+	{
+		Creature * enemy = 
+			dynamic_cast<Creature *>(cardsOfField[enemyTurn][i]);
+		if (enemy->GetAgro() == true)
+		{
+			isAgroOnField = true;
+			break;
+		}
+	}
+	if (isAgroOnField)
+		return target->GetAgro();
+	else
+		return true;
+}
+
+void BattleField::AddObserver(int turn,const IObserver * observer)
+{
+	if(observer != nullptr)
+		observers[turn].push_back(const_cast<IObserver *>(observer));
+}
+
+void BattleField::DeleteObserver( int turn,const IObserver * observer)
+{
+	for (int i = 0; i < observers[turn].size(); i++)
+	{
+		if (observers[turn][i] == observer)
+		{
+			delete observers[turn][i];
+			observers[turn].erase(observers[turn].begin() + i);
+			return;
+		}
+	}
+}
+
+void BattleField::CallObservers(int turn ,Card & card, EVENT event)
+{
+	for (int i = 0; i < observers[turn].size(); i++)
+		observers[turn][i]->onNotify(card, event);
+}
+
+void BattleField::CallObservers(int turn, Card * card, EVENT event)
+{
+	for (int i = 0; i < observers[turn].size(); i++)
+		observers[turn][i]->onNotify(card, event);
 }

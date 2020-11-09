@@ -12,7 +12,7 @@ public:
 	virtual ~AldorPeaceKeeper(){}
 
 	virtual void Attack(Card * target = NULL);
-	virtual void FirstSkill (Card * target = NULL) override;
+	virtual void FirstSkill () override;
 	virtual void Use() override;
 	virtual void Info() override;
 	virtual void detail() override;
