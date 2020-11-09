@@ -1,9 +1,10 @@
 #pragma once
 #include "Creature.h"
+
 class Tirion_Fordring :
 	public Creature
 {
-private :
+protected :
 	int myTurn;
 public:
 	Tirion_Fordring();

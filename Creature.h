@@ -3,7 +3,6 @@
 
 
 class BattleField;
-class IObserver;
 
 class Creature :
 	public Card
@@ -45,8 +44,13 @@ public:
 		if (nPower < 0) nPower = 0;		
 	}
 
+	virtual void SetDelete(bool val)
+	{
+		Card::SetDelete(val);
+	}
+
 	virtual int GetShield() { return nShield; }
-	virtual void SetShield(int val);	
+	virtual bool SetShield(int val);	
 
 	virtual int GetPowerOrigin() { return nPowerOrigin; }	
 	virtual int GetShieldOrigin() { return nShieldOrigin; }	

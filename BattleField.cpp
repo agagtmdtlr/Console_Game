@@ -33,8 +33,10 @@ void BattleField::Attack(Card * myCard, Card * yourCard)
 		// 공격을 한 하수인은 공격 횟수가 차감되고 서로의 전투효과와 데미지를 처리한다.
 		mine->AttackSkill(your);
 		your->AttackSkill(mine);
-		mine->SetShield(-(your->GetPower()));
-		your->SetShield(-(mine->GetPower()));		
+		if (mine->SetShield(-(your->GetPower())))
+			mine->SetDelete(true);
+		if (your->SetShield(-(mine->GetPower())))
+			your->SetDelete(true);
 	}
 	else
 	{
@@ -70,7 +72,7 @@ void BattleField::Draw()
 	}
 	else
 		cardsOfHand[turn].push_back(card);
-	Sleep(1000);
+	Sleep(500);
 }
 
 bool BattleField::Choice()
@@ -96,9 +98,11 @@ bool BattleField::Choice()
 	if (inputNum == 1)
 	{
 		Card * card = cardsOfHand[turn][SelectNum];		
-		cardsOfHand[turn][SelectNum]->Use();
+		cardsOfHand[turn][SelectNum]->Use();		
 		// 필드에 카드 낼 시에 발생하는 효과 호출
-		CallObservers(turn, *cardsOfHand[turn][SelectNum], EVENT::FIELD);			
+		CallObservers(turn, *cardsOfHand[turn][SelectNum], EVENT::FIELD);		
+		// 패에서 제거
+		cardsOfHand[turn].erase(cardsOfHand[turn].begin() + SelectNum);
 		return true;
 	}
 	else if (inputNum == 0)
@@ -249,7 +253,7 @@ void BattleField::InitGame()
 	{
 		cardsOfDeck[nPlayerTurn].push_back(new Argent_Protecter(this));
 		cardsOfDeck[nPlayerTurn].push_back(new AldorPeaceKeeper(this));
-		cardsOfDeck[nPlayerTurn].push_back(new Bronze_Broodmother(this));
+		//cardsOfDeck[nPlayerTurn].push_back(new Bronze_Broodmother(this));
 		cardsOfDeck[nPlayerTurn].push_back(new Tirion_Fordring(this));
 	}
 	nPlayerTurn = 0;

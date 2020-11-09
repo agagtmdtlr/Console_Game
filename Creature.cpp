@@ -2,7 +2,6 @@
 #include "stdafx.h"
 #include "Creature.h"
 #include "BattleField.h"
-#include "IObserver.h"
 
 Creature::Creature(
 	BattleField * field,
@@ -17,12 +16,12 @@ Creature::Creature(
 	isAgro(agro),isHolyShiled(holy)
 {}
 
-void Creature::SetShield(int val)
+bool Creature::SetShield(int val)
 {
 	if (isHolyShiled && val < 0)
 	{
 		isHolyShiled = false;
-		return;
+		return false;
 	}
 	int result = nShield + val;
 	// 최대 체력을 넘어갈수 가 없다.
@@ -37,9 +36,9 @@ void Creature::SetShield(int val)
 	
 	ExcuteObserver(event);
 	if (nShield <= 0)
-	{
-		SetDelete(true);		
-	}
+		return true;
+	else
+		return false;
 		
 }
 
@@ -54,9 +53,8 @@ void Creature::Use()
 		cout << "==" << strName << "를(을) 소환합니다==" << endl;
 		cout << "=================================" << endl;
 		this->FirstSkill();
-		battleFieldOfCard->cardsOfField[turn].push_back(new Creature(*this));
+		battleFieldOfCard->cardsOfField[turn].push_back(this);
 		Card::Use();
-		isDelete = true;
 	}
 	else
 	{

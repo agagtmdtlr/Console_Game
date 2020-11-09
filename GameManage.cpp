@@ -41,7 +41,6 @@ void GameManage::PlayGaming()
 				{
 					system("cls");
 					field->ShowField();
-					Sleep(1000);
 				}					
 				// if exhausted of user hp end the game
 				if (field->CheckEnd())

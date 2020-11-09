@@ -1,9 +1,4 @@
-﻿  AldorPeaceKeeper.cpp
-  Argent_Protecter.cpp
-  BattleField.cpp
-  Bronze_Broodmother.cpp
-  Creature.cpp
-  Guardian_Of_Kings.cpp
-  Tirion_Fordring.cpp
-  코드를 생성하고 있습니다...
-  HeartStone.vcxproj -> C:\Users\brian\Desktop\SGA_project\Console_Game\x64\Debug\HearthStone.exe
+﻿  BattleField.cpp
+  main.cpp
+  Generating Code...
+  HeartStone.vcxproj -> D:\dev\dev_project\HearthStone\Console_Game\x64\Debug\HearthStone.exe

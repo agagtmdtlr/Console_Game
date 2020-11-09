@@ -28,6 +28,7 @@ public:
 		if (nCost < 0) nCost = 0;
 	}
 	virtual bool GetDelete() { return isDelete; }
+
 	virtual void SetDelete(bool val)
 	{
 		isDelete = val; 
