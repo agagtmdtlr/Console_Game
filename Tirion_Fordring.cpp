@@ -9,7 +9,7 @@ Tirion_Fordring::Tirion_Fordring()
 }
 
 Tirion_Fordring::Tirion_Fordring(BattleField * field)
-	:Creature(field, 7, "티리온 폴드링", 6, 6, 1, true, false)
+	:Creature(field, 7, "티리온 폴드링", 6, 6, 1, true, true)
 {
 	myTurn = battleFieldOfCard->nPlayerTurn % 2;
 	cout << myTurn << endl;
