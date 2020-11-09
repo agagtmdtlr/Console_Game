@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files\Creature">
+      <UniqueIdentifier>{b398bf57-40be-4d97-8d65-a0cb28228c1e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Creature">
+      <UniqueIdentifier>{ea54710e-b480-4734-8c2c-901e6ca74de6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -33,26 +39,26 @@
     <ClCompile Include="BattleField.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="AldorPeaceKeeper.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="GameManage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="IObserver.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Argent_Protecter.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="AldorPeaceKeeper.cpp">
+      <Filter>Source Files\Creature</Filter>
     </ClCompile>
-    <ClCompile Include="Guardian_Of_Kings.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Argent_Protecter.cpp">
+      <Filter>Source Files\Creature</Filter>
     </ClCompile>
     <ClCompile Include="Bronze_Broodmother.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Creature</Filter>
+    </ClCompile>
+    <ClCompile Include="Guardian_Of_Kings.cpp">
+      <Filter>Source Files\Creature</Filter>
     </ClCompile>
     <ClCompile Include="Tirion_Fordring.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Creature</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -71,26 +77,26 @@
     <ClInclude Include="BattleField.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="AldorPeaceKeeper.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="GameManage.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="IObserver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Argent_Protecter.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="AldorPeaceKeeper.h">
+      <Filter>Header Files\Creature</Filter>
     </ClInclude>
-    <ClInclude Include="Guardian_Of_Kings.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Argent_Protecter.h">
+      <Filter>Header Files\Creature</Filter>
     </ClInclude>
     <ClInclude Include="Bronze_Broodmother.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Creature</Filter>
+    </ClInclude>
+    <ClInclude Include="Guardian_Of_Kings.h">
+      <Filter>Header Files\Creature</Filter>
     </ClInclude>
     <ClInclude Include="Tirion_Fordring.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Creature</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
