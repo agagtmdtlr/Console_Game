@@ -14,12 +14,12 @@ public:
 	// limit = 3
 	vector<Card *> cardsOfField[2];
 	// 관찰자 리스트를 담습니다.
-	vector<IObserver *> observers[2];
+	vector<Card *> observers[2];
 
 	int nPlayerTurn = 0;
 
 	int cost[2]; // 사용 가능한 코스트
-	int maXCost = 6; // 보유할수 있는 코스트 한계	
+	int maXCost = 11; // 보유할수 있는 코스트 한계	
 
 	BattleField();	
 
@@ -33,14 +33,16 @@ public:
 
 	virtual void ShowField();
 
-	virtual void Init();
+	virtual void InitGame();
+	
+	virtual void InitTurn();
 
 	virtual bool CheckEnd();	
 
 	virtual bool CheckIsCanAttack(Creature * target);
 
-	virtual void AddObserver(int turn,const IObserver * observer = nullptr);
-	virtual void DeleteObserver(int turn,const IObserver * observer = nullptr);
+	virtual void AddObserver(int turn,const Card * observer = nullptr);
+	virtual void DeleteObserver(int turn,const Card * observer = nullptr);
 
 	virtual void CallObservers(int turn, Card& card, EVENT event);
 	virtual void CallObservers(int turn, Card* card, EVENT event);

@@ -3,6 +3,9 @@
 #include "BattleField.h"
 #include "Creature.h"
 #include "AldorPeaceKeeper.h"
+#include "Argent_Protecter.h"
+#include "Bronze_Broodmother.h"
+#include "Tirion_Fordring.h"
 
 BattleField::BattleField()	
 {
@@ -27,6 +30,9 @@ void BattleField::Attack(Card * myCard, Card * yourCard)
 	if (CheckIsCanAttack(your) == true)
 	{
 		mine->SetAttackCount(-1);
+		// 공격을 한 하수인은 공격 횟수가 차감되고 서로의 전투효과와 데미지를 처리한다.
+		mine->AttackSkill(your);
+		your->AttackSkill(mine);
 		mine->SetShield(-(your->GetPower()));
 		your->SetShield(-(mine->GetPower()));		
 	}
@@ -206,7 +212,7 @@ void BattleField::ShowField()
 		
 }
 
-void BattleField::Init()
+void BattleField::InitGame()
 {
 	nPlayerTurn = 0;
 	// 유저 정보 초기화
@@ -239,12 +245,23 @@ void BattleField::Init()
 		cardsOfHand[i].clear();		
 	}	
 
-	for (int i = 0; i < 2; i++)
+	for (nPlayerTurn = 0; nPlayerTurn < 2; nPlayerTurn++)
 	{
-		for (int j = 0; j < 10; j++)
-		{
-			cardsOfDeck[i].push_back(new AldorPeaceKeeper(this));
-		}
+		cardsOfDeck[nPlayerTurn].push_back(new Argent_Protecter(this));
+		cardsOfDeck[nPlayerTurn].push_back(new AldorPeaceKeeper(this));
+		cardsOfDeck[nPlayerTurn].push_back(new Bronze_Broodmother(this));
+		cardsOfDeck[nPlayerTurn].push_back(new Tirion_Fordring(this));
+	}
+	nPlayerTurn = 0;
+}
+
+void BattleField::InitTurn()
+{
+	int turn = nPlayerTurn % 2;
+	for (int i = 0; i < cardsOfField[turn].size(); i++)
+	{
+		Creature * card = dynamic_cast<Creature *>(cardsOfField[turn][i]);
+		card->SetAttackCount(card->GetAttackCountOrigin());
 	}
 }
 
@@ -287,13 +304,13 @@ bool BattleField::CheckIsCanAttack(Creature * target)
 		return true;
 }
 
-void BattleField::AddObserver(int turn,const IObserver * observer)
+void BattleField::AddObserver(int turn,const Card * observer)
 {
 	if(observer != nullptr)
-		observers[turn].push_back(const_cast<IObserver *>(observer));
+		observers[turn].push_back(const_cast<Card *>(observer));
 }
 
-void BattleField::DeleteObserver( int turn,const IObserver * observer)
+void BattleField::DeleteObserver( int turn,const Card * observer)
 {
 	for (int i = 0; i < observers[turn].size(); i++)
 	{

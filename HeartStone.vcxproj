@@ -126,26 +126,34 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AldorPeaceKeeper.cpp" />
+    <ClCompile Include="Argent_Protecter.cpp" />
     <ClCompile Include="BattleField.cpp" />
+    <ClCompile Include="Bronze_Broodmother.cpp" />
     <ClCompile Include="Card.cpp" />
     <ClCompile Include="Creature.cpp" />
     <ClCompile Include="GameManage.cpp" />
+    <ClCompile Include="Guardian_Of_Kings.cpp" />
     <ClCompile Include="Magic.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="IObserver.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Tirion_Fordring.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AldorPeaceKeeper.h" />
+    <ClInclude Include="Argent_Protecter.h" />
     <ClInclude Include="BattleField.h" />
+    <ClInclude Include="Bronze_Broodmother.h" />
     <ClInclude Include="Card.h" />
     <ClInclude Include="Creature.h" />
     <ClInclude Include="GameManage.h" />
+    <ClInclude Include="Guardian_Of_Kings.h" />
     <ClInclude Include="Magic.h" />
     <ClInclude Include="IObserver.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="Tirion_Fordring.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

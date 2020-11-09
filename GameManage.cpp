@@ -11,16 +11,19 @@ void GameManage::PlayGaming()
 	isQuitGame = false;	
 	while (!isQuitGame)
 	{		
-		field->Init();
+		field->InitGame();
 		isEndGame = false;
 		while (!isEndGame)
 		{
 			system("cls");
+			// 게임 시작시 효과 발동
 			field->CallObservers(field->nPlayerTurn % 2,nullptr, EVENT::BEGIN);
+			// 공격 가능 횟수를 초기화
+			field->InitTurn();
 			// 턴 시작
 			isEndTurn = false;
 			// 코스트 부여
-			int thisTurnCost = field->nPlayerTurn / 2 + 3;
+			int thisTurnCost = field->nPlayerTurn / 2 + 10;
 			if (thisTurnCost > field->maXCost)
 				field->cost[field->nPlayerTurn % 2] = field->maXCost;
 			else
@@ -41,12 +44,18 @@ void GameManage::PlayGaming()
 					Sleep(1000);
 				}					
 				// if exhausted of user hp end the game
-				if (field->CheckEnd()) isEndGame = true;
+				if (field->CheckEnd())
+				{
+					isEndGame = true;
+					isEndTurn = true;
+				}
+					
 				// to delete died creature or used cards 
 				field->DeleteCards();
 			}
-			// 다음 유저의 턴으로 넘긴다.
+			// 턴 끝날시 효과발동 ( ex) 타우릿산 효과 : 턴 종료시 패에 들고 있는 카드의 코스트가 1 감소합니다. )
 			field->CallObservers(field->nPlayerTurn % 2, nullptr, EVENT::END);
+			// 다음 유저의 턴으로 넘긴다.
 			field->nPlayerTurn += 1;
 		}		
 	}

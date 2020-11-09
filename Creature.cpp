@@ -82,7 +82,7 @@ void Creature::Info()
 	cout << strName << "|" << nCost << "|" << nPower << "|" << nShield;
 	if (isAgro) cout << "|¡Ú";
 	else cout << "|X";
-	if (isAgro) cout << "|¢¾";
+	if (isHolyShiled) cout << "|¢¾";
 	else cout << "|X";
 }
 

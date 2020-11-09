@@ -1,3 +1,4 @@
+#pragma once
 #include "stdafx.h"
 #include "AldorPeaceKeeper.h"
 #include "BattleField.h"
@@ -49,6 +50,6 @@ void AldorPeaceKeeper::Info()
 void AldorPeaceKeeper::detail()
 {
 	Creature::detail();
-	cout << "효과 : " << endl;
+	cout << "전투의 함성 : " << endl;
 	cout << "선택한 적의 공격력을 1로 만듭니다." << endl;
 }

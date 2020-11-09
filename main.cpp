@@ -29,13 +29,23 @@
 
 int main()
 {
-	/*GameManage GM;
-	GM.PlayGaming();*/
+	GameManage GM;
+	GM.PlayGaming();
 
-	/*Super * obj = new Sub("¹Ú½Â½Ä", 10);
-	obj->info();
+	//Super * obj = new Sub("¹Ú½Â½Ä", 10);
+	//obj->info();
 
-	Observer * obs = dynamic_cast<Observer *>(obj);
-	obs->notify();*/
+	//Sub * objs = dynamic_cast<Sub *>(obj);
+
+	//cout << obj << endl << objs;
+	//if (obj == objs) cout << "°°´Ù" << endl;
+
+	//Observer * obs = dynamic_cast<Observer *>(obj);
+	//Observer * obs2 = dynamic_cast<Observer *>(objs);
+	//cout << obj << endl << obs << endl << obs2 << endl;
+
+	//Sub * objs2 = dynamic_cast<Sub *>(obs);
+	//cout << objs2 << endl << obj;
+	//obs->notify();
 
 }

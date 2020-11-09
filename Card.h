@@ -13,8 +13,6 @@ protected:
 	BattleField * battleFieldOfCard;	
 	// 관찰자 목록
 	bool isDelete;
-	// 관찰자 리스트를 담습니다.
-	vector<IObserver *> observers;
 public:
 	Card() {};	
 	Card(int cost, string name, BattleField * field);
@@ -24,7 +22,11 @@ public:
 	}
 
 	virtual int GetCost() { return nCost; }		
-	virtual void SetCost(const int val) { nCost += val; }
+	virtual void SetCost(const int val) 
+	{ 		
+		nCost += val; 
+		if (nCost < 0) nCost = 0;
+	}
 	virtual bool GetDelete() { return isDelete; }
 	virtual void SetDelete(bool val)
 	{
@@ -43,8 +45,9 @@ public:
 
 	virtual void ExcuteObserver(EVENT event)
 	{
-		for (int i = 0; i < observers.size(); i++)
-			battleFieldOfCard->observers[battleFieldOfCard->nPlayerTurn % 2][i]->
+		int turn = battleFieldOfCard->nPlayerTurn % 2;
+		for (int i = 0; i < battleFieldOfCard->observers[turn].size(); i++)
+			battleFieldOfCard->observers[turn][i]->
 			onNotify(*this, event);
 	}
 };
