@@ -33,7 +33,7 @@ void Tirion_Fordring::SetDelete(bool val)
 {
 	cout << "delete" << endl;
 	system("pause");
-	Creature::SetDelete(val);
+	Card::SetDelete(val);
 	cout << "5/3 파멸의 인도자를 소환합니다." << endl;
 	Sleep(1500);
 	battleFieldOfCard->cardsOfField[myTurn].push_back(new Creature(battleFieldOfCard, 2, "파멸의 인도자", 5, 3, 1, false, false));

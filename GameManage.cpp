@@ -17,7 +17,8 @@ void GameManage::PlayGaming()
 		{
 			system("cls");
 			// 게임 시작시 효과 발동
-			field->CallObservers(field->nPlayerTurn % 2,nullptr, EVENT::BEGIN);
+			int turn = field->nPlayerTurn % 2;
+			field->CallObservers(turn,nullptr, EVENT::BEGIN);
 			// 공격 가능 횟수를 초기화
 			field->InitTurn();
 			// 턴 시작

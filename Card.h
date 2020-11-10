@@ -18,7 +18,7 @@ public:
 	Card(int cost, string name, BattleField * field);
 	virtual ~Card() 
 	{
-		ExcuteObserver(EVENT::DIE);
+		
 	}
 
 	virtual int GetCost() { return nCost; }		
@@ -32,6 +32,7 @@ public:
 	virtual void SetDelete(bool val)
 	{
 		isDelete = val; 
+		ExcuteObserver(EVENT::DIE);
 	}
 
 	virtual void Use()

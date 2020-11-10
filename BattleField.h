@@ -15,6 +15,10 @@ public:
 	vector<Card *> cardsOfField[2];
 	// 관찰자 리스트를 담습니다.
 	vector<Card *> observers[2];
+	// 사용되어진 카드 리스트
+	vector<Card *> garbageCollector[2];
+
+	Creature * arrFight[2];
 
 	int nPlayerTurn = 0;
 
@@ -25,7 +29,7 @@ public:
 
 	virtual void Attack(Card * myCard, Card * yourCard);	
 
-	virtual void Draw();	
+	virtual void Draw(int turn);	
 
 	virtual bool Choice();
 

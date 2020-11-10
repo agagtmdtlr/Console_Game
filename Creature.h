@@ -12,6 +12,7 @@ protected:
 	int nPowerOrigin;	
 
 	int nShield;
+	int nPreviouShield;
 	int nShieldOrigin;	
 
 	int nAttackCount;
@@ -50,7 +51,7 @@ public:
 	}
 
 	virtual int GetShield() { return nShield; }
-	virtual bool SetShield(int val);	
+	virtual void SetShield(int val);	
 
 	virtual int GetPowerOrigin() { return nPowerOrigin; }	
 	virtual int GetShieldOrigin() { return nShieldOrigin; }	
