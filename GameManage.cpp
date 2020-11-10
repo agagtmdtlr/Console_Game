@@ -16,6 +16,9 @@ void GameManage::PlayGaming()
 		while (!isEndGame)
 		{
 			system("cls");
+			// 게임 시작시 효과 발동
+			int turn = field->nPlayerTurn % 2;
+			field->CallObservers(turn,nullptr, EVENT::BEGIN);
 			// 공격 가능 횟수를 초기화
 			field->InitTurn();
 			// 게임 시작시 효과 발동
@@ -29,7 +32,7 @@ void GameManage::PlayGaming()
 			else
 				field->cost[field->nPlayerTurn % 2] = thisTurnCost;
 			// 드로우
-			field->Draw();
+			field->Draw(turn);
 			
 			while (!isEndTurn)
 			{

@@ -18,26 +18,33 @@ BattleField::BattleField()
 
 void BattleField::Attack(Card * myCard, Card * yourCard)
 {		
-	Creature * mine = dynamic_cast<Creature *>(myCard);
-	Creature * your = dynamic_cast<Creature *>(yourCard);
+	int turn = nPlayerTurn % 2;
 
-	if (mine->GetAttackCount() == 0)
+	arrFight[turn] = dynamic_cast<Creature *>(myCard);
+	arrFight[1-turn] = dynamic_cast<Creature *>(yourCard);
+	
+
+	if (arrFight[turn]->GetAttackCount() == 0)
 	{
 		cout << "이번 턴에 더 이상 공격할 수 없습니다." << endl;
 		Sleep(1000);
 		return;
 	}
-	if (CheckIsCanAttack(your) == true)
+	if (CheckIsCanAttack(arrFight[1 - turn]) == true)
 	{
-		mine->SetAttackCount(-1);
-		// 공격을 한 하수인은 공격 횟수가 차감되고 서로의 전투효과와 데미지를 처리한다.
-		if(mine->GetSilence())
-			mine->AttackSkill(your);
-		if(your->GetSilence())
-			your->AttackSkill(mine);
+		// 공격 이벤트 발생
+		arrFight[turn]->ExcuteObserver(EVENT::ATTACK);
 
-		mine->SetShield(-(your->GetPower()));
-		your->SetShield(-(mine->GetPower()));
+		// 공격을 한 하수인은 공격 횟수가 차감되고 서로의 전투효과와 데미지를 처리한다.
+
+		arrFight[turn]->AttackSkill(arrFight[1 - turn]);
+		arrFight[1 - turn]->AttackSkill(arrFight[turn]);
+
+		arrFight[turn]->SetAttackCount(-1);
+
+		arrFight[turn]->SetShield(-(arrFight[1 - turn]->GetPower()));
+		arrFight[1 - turn]->SetShield(-(arrFight[turn]->GetPower()));
+
 	}
 	else
 	{
@@ -46,10 +53,8 @@ void BattleField::Attack(Card * myCard, Card * yourCard)
 	}	
 }
 
-void BattleField::Draw()
+void BattleField::Draw(int turn)
 {
-	int turn = nPlayerTurn % 2;
-
 	// 덱이 비었을 경우
 	if (cardsOfDeck[turn].empty())
 	{

@@ -12,6 +12,7 @@ protected:
 	int nPowerOrigin;	
 
 	int nShield;
+	int nPreviouShield;
 	int nShieldOrigin;	
 
 	int nAttackCount;

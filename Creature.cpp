@@ -10,7 +10,7 @@ Creature::Creature(
 	int attcount, 
 	bool agro, bool holy)
 	:Card(cost, name,field),
-	nPower(power), nShield(shield),
+	nPower(power), nShield(shield), nPreviouShield(shield),
 	nPowerOrigin(power), nShieldOrigin(shield),
 	nAttackCount(0), nAttackCountOrigin(attcount),	
 	isAgro(agro),isHolyShiled(holy),isSilence(false)
@@ -23,6 +23,7 @@ void Creature::SetShield(int val)
 		isHolyShiled = false;
 		return;
 	}
+	nPreviouShield = nShield;
 	int result = nShield + val;
 	// 최대 체력을 넘어갈수 가 없다.
 	if (result > nShieldOrigin) result = nShieldOrigin;
