@@ -31,12 +31,13 @@ void BattleField::Attack(Card * myCard, Card * yourCard)
 	{
 		mine->SetAttackCount(-1);
 		// 공격을 한 하수인은 공격 횟수가 차감되고 서로의 전투효과와 데미지를 처리한다.
-		mine->AttackSkill(your);
-		your->AttackSkill(mine);
-		if (mine->SetShield(-(your->GetPower())))
-			mine->SetDelete(true);
-		if (your->SetShield(-(mine->GetPower())))
-			your->SetDelete(true);
+		if(mine->GetSilence())
+			mine->AttackSkill(your);
+		if(your->GetSilence())
+			your->AttackSkill(mine);
+
+		mine->SetShield(-(your->GetPower()));
+		your->SetShield(-(mine->GetPower()));
 	}
 	else
 	{

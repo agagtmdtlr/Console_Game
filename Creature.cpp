@@ -13,15 +13,15 @@ Creature::Creature(
 	nPower(power), nShield(shield),
 	nPowerOrigin(power), nShieldOrigin(shield),
 	nAttackCount(0), nAttackCountOrigin(attcount),	
-	isAgro(agro),isHolyShiled(holy)
+	isAgro(agro),isHolyShiled(holy),isSilence(false)
 {}
 
-bool Creature::SetShield(int val)
+void Creature::SetShield(int val)
 {
 	if (isHolyShiled && val < 0)
 	{
 		isHolyShiled = false;
-		return false;
+		return;
 	}
 	int result = nShield + val;
 	// 최대 체력을 넘어갈수 가 없다.
@@ -36,10 +36,7 @@ bool Creature::SetShield(int val)
 	
 	ExcuteObserver(event);
 	if (nShield <= 0)
-		return true;
-	else
-		return false;
-		
+		SetDelete(true);
 }
 
 void Creature::Use()
@@ -52,7 +49,8 @@ void Creature::Use()
 		cout << "=================================" << endl;
 		cout << "==" << strName << "를(을) 소환합니다==" << endl;
 		cout << "=================================" << endl;
-		this->FirstSkill();
+		if(isSilence == false)
+			FirstSkill();
 		battleFieldOfCard->cardsOfField[turn].push_back(this);
 		Card::Use();
 	}

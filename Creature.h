@@ -15,9 +15,7 @@ protected:
 	int nShieldOrigin;	
 
 	int nAttackCount;
-	int nAttackCountOrigin;
-
-	
+	int nAttackCountOrigin;	
 
 	bool isAgro; // 도발 무조건 이 대상을 우선으로 공격해야 함
 	/*
@@ -25,6 +23,8 @@ protected:
 	있을까요?
 	*/
 	bool isHolyShiled; // 천상의 보호막 한번의 공격을 막습니다.
+
+	bool isSilence;
 
 public:
 	Creature(){}
@@ -36,6 +36,16 @@ public:
 		bool agro, bool holy
 		);
 	virtual ~Creature(){}
+
+	virtual void InitStat()
+	{
+		Card::InitStat();
+		nShield = nShieldOrigin;
+		nPower = nPowerOrigin;
+		nAttackCount = nAttackCountOrigin;
+		isAgro = false;
+		isHolyShiled = false;
+	}
 
 	virtual int GetPower() { return nPower; }
 	virtual void SetPower(int val) 
@@ -50,7 +60,7 @@ public:
 	}
 
 	virtual int GetShield() { return nShield; }
-	virtual bool SetShield(int val);	
+	virtual void SetShield(int val);	
 
 	virtual int GetPowerOrigin() { return nPowerOrigin; }	
 	virtual int GetShieldOrigin() { return nShieldOrigin; }	
@@ -66,10 +76,19 @@ public:
 
 	virtual bool GetAgro() { return isAgro; }	
 	
+	virtual bool GetSilence() { return isSilence; }
+	virtual void SetSilence(bool val)
+	{
+		isSilence = val;
+		if (isSilence)
+			InitStat();
+	}
+
 	virtual void AttackSkill(Card * target);
 	virtual void FirstSkill();
 	virtual void Use() override;
 	virtual void Info() override;
 	virtual void detail() override;	
+	
 };
 

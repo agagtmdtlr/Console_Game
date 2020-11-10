@@ -8,6 +8,7 @@ class Card
 {
 protected:
 	int nCost;	
+	int nCostOrigin;
 	string strName;
 	// 카드 효과 발생시 필드를 직접 제어
 	BattleField * battleFieldOfCard;	
@@ -19,6 +20,11 @@ public:
 	virtual ~Card() 
 	{
 		ExcuteObserver(EVENT::DIE);
+	}
+
+	virtual void InitStat()
+	{
+		nCost = nCostOrigin;
 	}
 
 	virtual int GetCost() { return nCost; }		
