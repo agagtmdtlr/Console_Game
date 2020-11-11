@@ -56,7 +56,7 @@ public:
 		int turn = battleFieldOfCard->nPlayerTurn % 2;
 		for (int i = 0; i < battleFieldOfCard->observers[turn].size(); i++)
 			battleFieldOfCard->observers[turn][i]->
-			onNotify(*this, event);
+			onNotify(this, event);
 	}
 };
 

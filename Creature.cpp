@@ -10,9 +10,9 @@ Creature::Creature(
 	int attcount, 
 	bool agro, bool holy)
 	:Card(cost, name,field),
-	nPower(power), nShield(shield), nPreviouShield(shield),
+	nPower(power), nShield(shield), nPreviouShield(shield), nMaxShield(shield),
 	nPowerOrigin(power), nShieldOrigin(shield),
-	nAttackCount(0), nAttackCountOrigin(attcount),	
+	nAttackCount(0),nAttackCountTurn(attcount), nAttackCountOrigin(attcount),	
 	isAgro(agro),isHolyShiled(holy),isSilence(false)
 {}
 
@@ -23,19 +23,27 @@ void Creature::SetShield(int val)
 		isHolyShiled = false;
 		return;
 	}
+	// 이전 체력을 변경.
 	nPreviouShield = nShield;
+
+	// 데미지 계산
 	int result = nShield + val;
 	// 최대 체력을 넘어갈수 가 없다.
-	if (result > nShieldOrigin) result = nShieldOrigin;
-	EVENT event;
-	if (result - nShield < 0)
-		event = EVENT::DAMAGE;
-	// 기존 체력 보다 올라가야 회복으로 판정된다.
-	else if (result - nShield > 0)
-		event = EVENT::HEAL;
-	nShield = result;
+	if (result > nMaxShield) result = nMaxShield;
 	
-	ExcuteObserver(event);
+	if (result != nShield)
+	{
+		EVENT event;
+		if (result < nShield)
+			event = EVENT::DAMAGE;
+		// 기존 체력 보다 올라가야 회복으로 판정된다.
+		else if (result > nShield)
+			event = EVENT::HEAL;		
+		// 현재 체력을 변경
+		nShield = result;
+		ExcuteObserver(event);
+	}
+
 	if (nShield <= 0)
 		SetDelete(true);
 }

@@ -9,7 +9,7 @@ using namespace std;
 
 enum class EVENT
 {
-	BEGIN,DRAW,FIELD,ATTACK,DAMAGE,HEAL,DIE,END
+	BEGIN,DRAW,FIELD,ATTACK,DAMAGE,HEAL,NONE,DIE,END
 };
 
 template <typename T>

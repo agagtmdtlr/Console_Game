@@ -88,14 +88,15 @@ bool GameManage::SelectAction()
 		myCreatureIndex = InputVariable<unsigned int>(myCreatureIndex); // input test
 		if (myCreatureIndex >= field->cardsOfField[turn].size())
 			return false;
-
+		field->cardsOfField[turn][myCreatureIndex]->detail();
+		cout << "--------------------------------------------------" << endl;
 		cout << "적 하수인?(0)상대 영웅?(1) : ";
 		enemyCreatureIndex = InputVariable<unsigned int>(enemyCreatureIndex);
 		if (enemyCreatureIndex == 1)
 		{
 			field->Attack(
 				field->cardsOfField[turn][myCreatureIndex],
-				field->User[abs(turn -1)]
+				field->User[1-turn]
 			);
 		}
 		else
@@ -107,7 +108,7 @@ bool GameManage::SelectAction()
 			//두카드의 싸움
 			field->Attack(
 				field->cardsOfField[turn][myCreatureIndex],
-				field->cardsOfField[abs(turn - 1)][enemyCreatureIndex]
+				field->cardsOfField[1-turn][enemyCreatureIndex]
 			);
 		}
 		

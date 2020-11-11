@@ -13,10 +13,12 @@ protected:
 
 	int nShield;
 	int nPreviouShield;
+	int nMaxShield;
 	int nShieldOrigin;	
 
-	int nAttackCount;
-	int nAttackCountOrigin;	
+	int nAttackCount; // 현재 남은 공격 횟수
+	int nAttackCountTurn; // 턴마다 주어지는 공격횟수
+	int nAttackCountOrigin;	 // 초기 생성 공격횟수
 
 	bool isAgro; // 도발 무조건 이 대상을 우선으로 공격해야 함
 	/*
@@ -63,11 +65,25 @@ public:
 	virtual int GetShield() { return nShield; }
 	virtual void SetShield(int val);	
 
+	virtual int GetPreviousShield() { return nShield; }
+
+	virtual int GetMaxShield() { return nMaxShield; }
+	virtual void SetMaxShield(int val)
+	{ 
+		nMaxShield += val;
+		// 3 / 5 -> 3 / 5-3=2 
+		// 2-3=-1 -> 3+(-1) = 2;
+		nShield += nMaxShield - nShield;
+	}
+
 	virtual int GetPowerOrigin() { return nPowerOrigin; }	
 	virtual int GetShieldOrigin() { return nShieldOrigin; }	
 
 	virtual int GetAttackCount() { return nAttackCount; }
 	virtual void SetAttackCount(int val) { nAttackCount += val; }
+
+	virtual int GetAttackCountTurn() { return nAttackCountTurn; }
+	virtual void SetAttackCountTurn(int val) { nAttackCountTurn += val;	}
 
 	virtual int GetAttackCountOrigin() { return nAttackCountOrigin; }
 	virtual void SetAttackCountOrigin(int val) { nAttackCountOrigin += val; }

@@ -24,12 +24,16 @@ void BattleField::Attack(Card * myCard, Card * yourCard)
 	arrFight[1-turn] = dynamic_cast<Creature *>(yourCard);
 	
 
+	// 선택된 하수인이 공격할 수 있는지 판별한다.
 	if (arrFight[turn]->GetAttackCount() == 0)
 	{
 		cout << "이번 턴에 더 이상 공격할 수 없습니다." << endl;
 		Sleep(1000);
 		return;
 	}
+
+	//  필드에 도발이 존재하면 도발을 우선으로 공격해야 한다.
+	//  현재 상대를 공격할 수 있는지 판별한다
 	if (CheckIsCanAttack(arrFight[1 - turn]) == true)
 	{
 		// 공격 이벤트 발생
@@ -134,7 +138,7 @@ void BattleField::DeleteCards()
 				break;
 			if (cardsOfDeck[turn][i]->GetDelete() == true)
 			{
-				delete cardsOfDeck[turn][i];
+				garbageCollector[turn].push_back(cardsOfDeck[turn][i]);
 				cardsOfDeck[turn].erase(cardsOfDeck[turn].begin() + i);
 			}
 			else
@@ -150,7 +154,7 @@ void BattleField::DeleteCards()
 				break;
 			if (cardsOfHand[turn][i]->GetDelete() == true)
 			{
-				delete cardsOfHand[turn][i];
+				garbageCollector[turn].push_back(cardsOfHand[turn][i]);
 				cardsOfHand[turn].erase(cardsOfHand[turn].begin() + i);
 			}
 			else
@@ -166,7 +170,7 @@ void BattleField::DeleteCards()
 				break;
 			if (cardsOfField[turn][i]->GetDelete() == true)
 			{
-				delete cardsOfField[turn][i];
+				garbageCollector[turn].push_back(cardsOfField[turn][i]);
 				cardsOfField[turn].erase(cardsOfField[turn].begin() + i);
 			}
 			else
@@ -253,6 +257,12 @@ void BattleField::InitGame()
 			delete cardsOfHand[i][j];
 		}
 		cardsOfHand[i].clear();		
+
+		for (int j = 0; j < garbageCollector[i].size(); j++)
+		{
+			delete garbageCollector[i][j];
+		}
+		garbageCollector[i].clear();
 	}	
 
 	for (nPlayerTurn = 0; nPlayerTurn < 2; nPlayerTurn++)
