@@ -17,15 +17,9 @@ protected:
 public:
 	Card() {};	
 	Card(int cost, string name, BattleField * field);
-	virtual ~Card() 
-	{
-		
-	}
+	virtual ~Card() {	}
 
-	virtual void InitStat()
-	{
-		nCost = nCostOrigin;
-	}
+	virtual void InitStat()	{ nCost = nCostOrigin; }
 
 	virtual int GetCost() { return nCost; }		
 	virtual void SetCost(const int val) 
@@ -51,7 +45,7 @@ public:
 	virtual void onNotify(const Card& card, EVENT event) {}
 	virtual void onNotify(const Card* card, EVENT event) {}
 
-	virtual void ExcuteObserver(EVENT event)
+	virtual void ExcuteObserver(EVENT event) final
 	{
 		int turn = battleFieldOfCard->nPlayerTurn % 2;
 		for (int i = 0; i < battleFieldOfCard->observers[turn].size(); i++)

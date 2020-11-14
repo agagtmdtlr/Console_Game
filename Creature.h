@@ -68,7 +68,8 @@ public:
 	virtual int GetPreviousShield() { return nShield; }
 
 	virtual int GetMaxShield() { return nMaxShield; }
-	virtual void SetMaxShield(int val)
+	
+	virtual void SetMaxShield(int val)// 최대 체력 증가
 	{ 
 		nMaxShield += val;
 		// 3 / 5 -> 3 / 5-3=2 
