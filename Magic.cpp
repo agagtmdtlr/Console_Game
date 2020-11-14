@@ -25,6 +25,7 @@ void Magic::Use()
 		cout << "==" << strName << "를(을) 사용합니다==" << endl;
 		cout << "=================================" << endl;
 		this->FirstSkill();
+		Card::Use();
 		SetDelete(true);
 	}
 	else

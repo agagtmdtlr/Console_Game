@@ -15,6 +15,10 @@ public:
 	);
 	virtual ~Magic();
 
+	virtual void SetDelete(bool val)
+	{
+		isDelete = true;
+	}
 	virtual void Use() override;
 	virtual void FirstSkill();
 	virtual void Info() override;

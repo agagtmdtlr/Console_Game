@@ -8,12 +8,14 @@ Creature::Creature(
 	int cost, string name,
 	int power, int shield,
 	int attcount, 
-	bool agro, bool holy)
+	bool agro, bool holy,
+	bool hide
+)
 	:Card(cost, name,field),
 	nPower(power), nShield(shield), nPreviouShield(shield), nMaxShield(shield),
 	nPowerOrigin(power), nShieldOrigin(shield),
 	nAttackCount(0),nAttackCountTurn(attcount), nAttackCountOrigin(attcount),	
-	isAgro(agro),isHolyShiled(holy),isSilence(false)
+	isAgro(agro),isHolyShiled(holy),isSilence(false),isHide(hide)
 {}
 
 void Creature::SetShield(int val)
@@ -52,6 +54,13 @@ void Creature::Use()
 {
 	int turn = battleFieldOfCard->nPlayerTurn % 2;
 
+	if (battleFieldOfCard->cardsOfField[turn].size() >= FieldMax)
+	{
+		cout << "=================================" << endl;
+		cout << "==      필드가 꽉 찼습니다.     ==" << endl;
+		cout << "=================================" << endl;
+	}
+
 	if (battleFieldOfCard->cost[turn] >= nCost)
 	{
 		battleFieldOfCard->cost[turn] -= nCost; // 코스트 소모
@@ -82,7 +91,7 @@ void Creature::FirstSkill()
 	return;
 }
 
-void Creature::Info()
+void Creature::Info() // 요약 정보
 {
 	cout << strName << "|" << nCost << "|" << nPower << "|" << nShield;
 	if (isAgro) cout << "|★";
@@ -91,7 +100,7 @@ void Creature::Info()
 	else cout << "|X";
 }
 
-void Creature::detail()
+void Creature::detail() // 세부 정보
 {
 	cout << "이름 : " << strName << endl
 		<< "코스트 : " << nCost << endl

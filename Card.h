@@ -32,12 +32,16 @@ public:
 	virtual void SetDelete(bool val)
 	{
 		isDelete = val; 
-		ExcuteObserver(EVENT::DIE);
+		if (isDelete == true)
+		{
+			ExcuteObserver(EVENT::DESTROY);			
+		}
+		
 	}
 
 	virtual void Use()
 	{
-		ExcuteObserver(EVENT::FIELD);
+		ExcuteObserver(EVENT::USE);
 	}
 	virtual void Info(){}
 	virtual void detail(){}

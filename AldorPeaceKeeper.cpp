@@ -4,7 +4,7 @@
 #include "BattleField.h"
 
 AldorPeaceKeeper::AldorPeaceKeeper(BattleField * field)
-	:Creature(field,2,"알도르 평화감시단",3,3,1,false,false)
+	:Creature(field,2,"알도르 평화감시단",3,3,1,false,false,false)
 {	
 }
 

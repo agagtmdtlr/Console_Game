@@ -10,10 +10,10 @@
 BattleField::BattleField()	
 {
 	for (int i = 0; i < 2; i++)
-		User[i] = new Creature(this, 0, "Player" + i, 0, 5, 0, false, false);
-	cardsOfDeck->reserve(10);
-	cardsOfDeck->reserve(5);
-	cardsOfDeck->reserve(5);
+		User[i] = new Creature(this, 0, "Player" + i, 0, 5, 0, false, false, false);
+	cardsOfDeck->reserve(DeckSetting);
+	cardsOfField->reserve(FieldMax);
+	cardsOfHand->reserve(HandMax);
 }
 
 void BattleField::Attack(Card * myCard, Card * yourCard)
@@ -25,7 +25,7 @@ void BattleField::Attack(Card * myCard, Card * yourCard)
 	
 
 	// 선택된 하수인이 공격할 수 있는지 판별한다.
-	if (arrFight[turn]->GetAttackCount() == 0)
+	if (arrFight[turn]->GetAttackCount() <= 0)
 	{
 		cout << "이번 턴에 더 이상 공격할 수 없습니다." << endl;
 		Sleep(1000);
@@ -37,18 +37,21 @@ void BattleField::Attack(Card * myCard, Card * yourCard)
 	if (CheckIsCanAttack(arrFight[1 - turn]) == true)
 	{
 		// 공격 이벤트 발생
-		arrFight[turn]->ExcuteObserver(EVENT::ATTACK);
-
+		arrFight[turn]->ExcuteObserver(EVENT::ATTACK);		
+		
 		// 공격을 한 하수인은 공격 횟수가 차감되고 서로의 전투효과와 데미지를 처리한다.
+		arrFight[turn]->SetAttackCount(-1); // 공격 횟수 차감
 
-		arrFight[turn]->AttackSkill(arrFight[1 - turn]);
-		arrFight[1 - turn]->AttackSkill(arrFight[turn]);
-
-		arrFight[turn]->SetAttackCount(-1);
-
-		arrFight[turn]->SetShield(-(arrFight[1 - turn]->GetPower()));
+		if (arrFight[1 - turn] != User[1 - turn]) // 영웅을 공격할때는 피해를 입지 않습니다.
+			arrFight[turn]->SetShield(-(arrFight[1 - turn]->GetPower()));
 		arrFight[1 - turn]->SetShield(-(arrFight[turn]->GetPower()));
-
+		
+		// 공격을 수행한 카드 전투 스킬발동
+		if (arrFight[turn]->GetSilence() == false)
+			arrFight[turn]->AttackSkill(arrFight[1 - turn]);
+		// 공격을 받은 카드 전투 스킬 발동
+		if (arrFight[1 - turn]->GetSilence() == false)
+			arrFight[1 - turn]->AttackSkill(arrFight[turn]);
 	}
 	else
 	{
@@ -74,9 +77,9 @@ void BattleField::Draw(int turn)
 		observers[turn][i]->onNotify(*card, EVENT::DRAW);
 	}
 	cardsOfDeck[turn].pop_back();	
-	if (cardsOfHand[turn].size() >= 5)
+	if (cardsOfHand[turn].size() >= HandMax)
 	{
-		delete card;
+		garbageCollector->push_back(card);
 		cout << "보유할 수 있는 카드가 한계입니다." << endl
 			<< "드로우한 카드를 삭제합니다." << endl;
 	}
@@ -109,8 +112,6 @@ bool BattleField::Choice()
 	{
 		Card * card = cardsOfHand[turn][SelectNum];		
 		cardsOfHand[turn][SelectNum]->Use();		
-		// 필드에 카드 낼 시에 발생하는 효과 호출
-		CallObservers(turn, *cardsOfHand[turn][SelectNum], EVENT::FIELD);		
 		// 패에서 제거
 		cardsOfHand[turn].erase(cardsOfHand[turn].begin() + SelectNum);
 		return true;
@@ -281,7 +282,8 @@ void BattleField::InitTurn()
 	for (int i = 0; i < cardsOfField[turn].size(); i++)
 	{
 		Creature * card = dynamic_cast<Creature *>(cardsOfField[turn][i]);
-		card->SetAttackCount(card->GetAttackCountOrigin());
+		int count = card->GetAttackCountTurn() - card->GetAttackCount();
+		card->SetAttackCount(count);
 	}
 }
 
@@ -306,6 +308,8 @@ bool BattleField::CheckEnd()
 
 bool BattleField::CheckIsCanAttack(Creature * target)
 {
+	if (target->GetHide()) return false;
+
 	bool isAgroOnField = false;
 	int enemyTurn = 1 - nPlayerTurn % 2;
 	for (int i = 0; i < cardsOfField[enemyTurn].size(); i++)

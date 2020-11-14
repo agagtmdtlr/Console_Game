@@ -10,7 +10,7 @@ Argent_Protecter::Argent_Protecter()
 }
 
 Argent_Protecter::Argent_Protecter(BattleField * field)
-	:Creature(field, 1, "여명회 파수명", 2, 2, 1, false, false)
+	:Creature(field, 1, "여명회 파수명", 2, 2, 1, false, false, false)
 {
 }
 
@@ -47,6 +47,9 @@ void Argent_Protecter::FirstSkill()
 void Argent_Protecter::detail()
 {
 	Creature::detail();
-	cout << "전투의 함성 : " << endl;
-	cout << "아군 하수인에게 천상의 보호막을 부여합니다." << endl;
+	if (isSilence)
+	{
+		cout << "전투의 함성 : " << endl;
+		cout << "아군 하수인에게 천상의 보호막을 부여합니다." << endl;
+	}
 }

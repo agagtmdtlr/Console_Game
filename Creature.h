@@ -27,7 +27,9 @@ protected:
 	*/
 	bool isHolyShiled; // 천상의 보호막 한번의 공격을 막습니다.
 
-	bool isSilence;
+	bool isSilence; // 침묵
+
+	bool isHide; // 은신
 
 public:
 	Creature(){}
@@ -36,7 +38,8 @@ public:
 		int cost, string name,
 		int power, int shield,
 		int attcount,
-		bool agro, bool holy
+		bool agro, bool holy,
+		bool hide
 		);
 	virtual ~Creature(){}
 
@@ -101,6 +104,9 @@ public:
 		if (isSilence)
 			InitStat();
 	}
+
+	virtual bool GetHide() { return isHide; }
+	virtual void SetHide(bool val) { isHide = val; }
 
 	virtual void AttackSkill(Card * target);
 	virtual void FirstSkill();

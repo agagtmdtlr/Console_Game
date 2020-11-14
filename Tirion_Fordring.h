@@ -13,5 +13,10 @@ public:
 
 	virtual void detail() override;
 	virtual void SetDelete(bool val) override;
+	virtual void FirstSkill() override
+	{
+		isAgro = true;
+		isHolyShiled = true;
+	}
 };
 

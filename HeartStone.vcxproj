@@ -133,6 +133,7 @@
     <ClCompile Include="Creature.cpp" />
     <ClCompile Include="GameManage.cpp" />
     <ClCompile Include="Guardian_Of_Kings.cpp" />
+    <ClCompile Include="Hero.cpp" />
     <ClCompile Include="Magic.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="IObserver.cpp" />
@@ -140,6 +141,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Tirion_Fordring.cpp" />
+    <ClCompile Include="Weapon.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AldorPeaceKeeper.h" />
@@ -150,10 +152,12 @@
     <ClInclude Include="Creature.h" />
     <ClInclude Include="GameManage.h" />
     <ClInclude Include="Guardian_Of_Kings.h" />
+    <ClInclude Include="Hero.h" />
     <ClInclude Include="Magic.h" />
     <ClInclude Include="IObserver.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Tirion_Fordring.h" />
+    <ClInclude Include="Weapon.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

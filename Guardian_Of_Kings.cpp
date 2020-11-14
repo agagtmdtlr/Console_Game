@@ -10,7 +10,7 @@ Guardian_Of_Kings::Guardian_Of_Kings()
 }
 
 Guardian_Of_Kings::Guardian_Of_Kings(BattleField * field)
-	:Creature(field, 6, "왕의 수호자", 5, 6, 1, false, false)
+	:Creature(field, 6, "왕의 수호자", 5, 6, 1, false, false, false)
 {
 }
 
