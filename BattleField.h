@@ -27,7 +27,9 @@ public:
 
 	BattleField();	
 
-	virtual void Attack(Card * myCard, Card * yourCard);	
+	virtual void Attack(int turn, Card * myCard, Card * yourCard);	
+
+	virtual bool CheckIsCanAttack(int turn, Creature * target);
 
 	virtual void Draw(int turn);	
 
@@ -43,7 +45,6 @@ public:
 
 	virtual bool CheckEnd();	
 
-	virtual bool CheckIsCanAttack(Creature * target);
 
 	virtual void AddObserver(int turn,const Card * observer = nullptr);
 	virtual void DeleteObserver(int turn,const Card * observer = nullptr);

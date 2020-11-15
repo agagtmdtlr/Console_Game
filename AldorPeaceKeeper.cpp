@@ -14,26 +14,28 @@ void AldorPeaceKeeper::Attack(Card * target)
 
 void AldorPeaceKeeper::FirstSkill()
 {
-	int e_turn = (battleFieldOfCard->nPlayerTurn + 1) % 2;
+	int e_turn = 1 - nThisCardUserNumber;
 	// 상대 필드에 카드가 없으면 효과 미발동
-	if (battleFieldOfCard->cardsOfField[e_turn].size() == 0) return;
-	int inputNum = 0;
-	while (1)
-	{
-		cout << "적을 선택하시오 : ";
-		inputNum = InputVariable<int>(inputNum);
-
-		if (inputNum >= battleFieldOfCard->cardsOfField[e_turn].size())
-		{
-			cout << "다시 입력하시오" << endl;
-		}
-		else
-		{
-			break;
-		}		
-	}
-	Creature * enemy = dynamic_cast<Creature *>(battleFieldOfCard->cardsOfField[e_turn][inputNum]);
 	
+	// 필드가 비어 있음
+	if (battleFieldOfCard->cardsOfField[e_turn].size() <= 0) return;
+
+	vector<Card *> selectList;
+	selectList.reserve(FieldMax);
+
+	// 실제로 타케팅 가능한 하수인이 존재하는지 확인하기
+	for (int i = 0; i < battleFieldOfCard->cardsOfField[e_turn].size(); i++)
+	{
+		Creature * creature = (Creature *)battleFieldOfCard->cardsOfField[e_turn][i];
+		if (creature->GetMagicTargeted() == true && creature->GetInvincibility() == false)
+			selectList.push_back(creature);
+	}
+	if (selectList.size() <= 0) return;
+
+	cout << "적의 하수인 필드" << endl;		
+	int selectNum = SelectCard(&selectList); // 카드 선택
+	
+	Creature * enemy = dynamic_cast<Creature *>(selectList[selectNum]);
 	enemy->SetPower(-(enemy->GetPower()-1));
 }
 

@@ -6,9 +6,12 @@
   Creature.cpp
   GameManage.cpp
   Guardian_Of_Kings.cpp
+  Hero.cpp
+  Humility.cpp
   Magic.cpp
+  Secret.cpp
   Tirion_Fordring.cpp
+  Weapon.cpp
   main.cpp
-  stdafx.cpp
   Generating Code...
   HeartStone.vcxproj -> D:\dev\dev_project\HearthStone\Console_Game\x64\Debug\HearthStone.exe

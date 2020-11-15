@@ -1,10 +1,14 @@
 #pragma once
 #include "Card.h"
+#include "Hero.h"
+
 
 class Weapon :
 	public Card
 {
 private:
+	int equiptedPlayer;
+
 	int nAttackCount;
 
 	int nPower;
@@ -14,14 +18,25 @@ private:
 	int nDurabilityOrigin;	
 public:
 	Weapon() {};
-	Weapon(
+	Weapon(		
 		BattleField * field,
 		int cost, string name,
 		int power, int durability,
 		int attcount
 	);
 
-	virtual ~Weapon();
+	Weapon(
+		int userNumber,
+		BattleField * field,
+		int cost, string name,
+		int power, int durability,
+		int attcount
+	);
+
+	virtual ~Weapon();	
+
+	virtual void SetDelete(bool val) override;
+	
 
 	virtual int GetPower() { return nPower; }
 	virtual void SetPower(int val) { nPower += val; }
@@ -32,7 +47,7 @@ public:
 		nDurability += val; 
 		if (nDurability <= 0)
 		{
-			SetDelete(true);			
+			SetDelete(true);	
 		}
 	}
 

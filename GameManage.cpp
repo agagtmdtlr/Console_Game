@@ -95,6 +95,7 @@ bool GameManage::SelectAction()
 		if (enemyCreatureIndex == 1)
 		{
 			field->Attack(
+				turn,
 				field->cardsOfField[turn][myCreatureIndex],
 				field->User[1-turn]
 			);
@@ -107,6 +108,7 @@ bool GameManage::SelectAction()
 				return false;
 			//두카드의 싸움
 			field->Attack(
+				turn,
 				field->cardsOfField[turn][myCreatureIndex],
 				field->cardsOfField[1-turn][enemyCreatureIndex]
 			);

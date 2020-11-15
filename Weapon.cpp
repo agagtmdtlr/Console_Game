@@ -1,20 +1,41 @@
 #pragma once
 #include "stdafx.h"
 #include "Weapon.h"
-#include "Hero.h"
+
+
 
 
 Weapon::Weapon(BattleField * field, int cost, string name, int power, int durability, int attcount)
+	: Card(cost, name, field),
+	nPower(power), nPowerOrigin(power),
+	nDurability(durability), nDurabilityOrigin(durability),
+	nAttackCount(attcount)
+{
+}
+
+Weapon::Weapon(int userNumber, BattleField * field, int cost, string name, int power, int durability, int attcount)
 	: Card(cost,name,field),
 	nPower(power), nPowerOrigin(power),
 	nDurability(durability), nDurabilityOrigin(durability),
 	nAttackCount(attcount)
 {
-	
+	nThisCardUserNumber = userNumber;
 }
 
 Weapon::~Weapon()
 {
+}
+
+void Weapon::SetDelete(bool val)
+{
+	Card::SetDelete(val);
+
+	if (isDelete == true)
+	{
+		// 해당 무기를 장착하고 있는 유저의 공격관련(횟수) 초기화 해준다.
+		Hero * hero = (Hero *)battleFieldOfCard->User[nThisCardUserNumber];
+		hero->ReleaseWeapon();
+	}
 }
 
 void Weapon::Use()

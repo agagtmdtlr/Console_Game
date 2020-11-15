@@ -9,17 +9,20 @@ Creature::Creature(
 	int power, int shield,
 	int attcount, 
 	bool agro, bool holy,
-	bool hide
+	bool invincibility
 )
 	:Card(cost, name,field),
 	nPower(power), nShield(shield), nPreviouShield(shield), nMaxShield(shield),
 	nPowerOrigin(power), nShieldOrigin(shield),
 	nAttackCount(0),nAttackCountTurn(attcount), nAttackCountOrigin(attcount),	
-	isAgro(agro),isHolyShiled(holy),isSilence(false),isHide(hide)
+	isAgro(agro),isHolyShiled(holy),isSilence(false), isInvincibility(invincibility),
+	isAttackTargeted(true), isMagicTargeted(true) , isIced(false)
 {}
 
 void Creature::SetShield(int val)
 {
+	if (isInvincibility == true) // 무적은 피해 안받음
+		return;
 	if (isHolyShiled && val < 0)
 	{
 		isHolyShiled = false;
@@ -27,15 +30,15 @@ void Creature::SetShield(int val)
 	}
 	// 이전 체력을 변경.
 	nPreviouShield = nShield;
-
-	// 데미지 계산
+	// 체력 증감 계산
 	int result = nShield + val;
-	// 최대 체력을 넘어갈수 가 없다.
+	// 회복은 최대 체력을 넘어갈수 가 없다. ( 회복과 체력 증가는 다르다 )
 	if (result > nMaxShield) result = nMaxShield;
 	
-	if (result != nShield)
+	if (result != nShield) // 체력의 변화가 있는가
 	{
 		EVENT event;
+		// 기존 체력 보다 내려가야 피해입음으로 판정된다.
 		if (result < nShield)
 			event = EVENT::DAMAGE;
 		// 기존 체력 보다 올라가야 회복으로 판정된다.
@@ -46,7 +49,7 @@ void Creature::SetShield(int val)
 		ExcuteObserver(event);
 	}
 
-	if (nShield <= 0)
+	if (nShield <= 0) // 카드 소멸 판단
 		SetDelete(true);
 }
 
@@ -59,6 +62,8 @@ void Creature::Use()
 		cout << "=================================" << endl;
 		cout << "==      필드가 꽉 찼습니다.     ==" << endl;
 		cout << "=================================" << endl;
+		Sleep(1000);
+		return;
 	}
 
 	if (battleFieldOfCard->cost[turn] >= nCost)

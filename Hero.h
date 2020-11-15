@@ -1,14 +1,17 @@
 #pragma once
 #include "Creature.h"
 #include "Weapon.h"
-#include "Magic.h"
+#include "Secret.h"
+
+class Weapon;
+class Secret;
 
 class Hero :
 	public Creature
 {
 private :
 	Weapon * weapon;
-	vector<Magic *> secret;
+	vector<Secret *> secretCards;
 public:
 	Hero();
 	Hero(
@@ -19,7 +22,7 @@ public:
 		bool agro, bool holy,
 		bool hide, Weapon * weapon = nullptr
 	);
-	~Hero();
+	virtual ~Hero();
 
 	virtual void Use() override;
 	virtual void FirstSkill() override;
@@ -29,13 +32,24 @@ public:
 
 	virtual int GetAttackCount() override;
 	virtual void SetAttackCount(int val) override;	
+
+	virtual int GetSecretSize() { return (int)secretCards.size(); }
+	virtual void SetSecretCard(Secret * secretCard) { secretCards.push_back(secretCard); }
 		
 	virtual Weapon * GetWeapon() { return weapon; }
-	virtual void SetWeapon(Weapon * val) 
-	{ 
-		weapon = val;
-		if(weapon != nullptr)
-			nAttackCountTurn = weapon->GetAttackCount();
+	virtual void SetWeapon(Weapon * val);
+
+	virtual void ReleaseWeapon()
+	{
+		// ¹«±â ÆÄ±«½Ã ¿µ¿õ °ø°ÝÈ½¼ö ÃÊ±âÈ­
+		// 2 cnt weapon destroy when use 1cnt
+		// hero org cnt 1 but we att 1
+		// 2 - 1 - 1 = 0;
+		// 2 cnt weapon destroy when use 2cnt
+		// hero org cnt 1 but we att 2
+		// 2 - 2 - 1  = - 1		
+		nAttackCount = nAttackCount - nAttackCountOrigin;
+		nAttackCountTurn = nAttackCountOrigin;
 	}
 	
 };

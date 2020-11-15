@@ -7,6 +7,7 @@ class Card
 	: public IObserver
 {
 protected:
+	int nThisCardUserNumber;
 	int nCost;	
 	int nCostOrigin;
 	string strName;
@@ -56,5 +57,10 @@ public:
 			battleFieldOfCard->observers[turn][i]->
 			onNotify(this, event);
 	}
+
+	virtual int GetThisCardUser() { return nThisCardUserNumber; }
+
+	virtual int SelectCard(vector<Card*> *pCardCategory);
+	
 };
 

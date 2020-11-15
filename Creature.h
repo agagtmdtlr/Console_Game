@@ -29,8 +29,12 @@ protected:
 
 	bool isSilence; // 침묵
 
-	bool isHide; // 은신
+	bool isInvincibility; // 무적
 
+	bool isIced;
+
+	bool isAttackTargeted;
+	bool isMagicTargeted;
 public:
 	Creature(){}
 	Creature(
@@ -39,7 +43,7 @@ public:
 		int power, int shield,
 		int attcount,
 		bool agro, bool holy,
-		bool hide
+		bool invincibility
 		);
 	virtual ~Creature(){}
 
@@ -101,12 +105,20 @@ public:
 	virtual void SetSilence(bool val)
 	{
 		isSilence = val;
-		if (isSilence)
+		if (isSilence == true)
 			InitStat();
 	}
+	virtual bool GetAttackTargeted() { return isAttackTargeted; }
+	virtual void SetAttackTargeted(bool val) { isAttackTargeted = val; }
+	
+	virtual bool GetMagicTargeted() { return isMagicTargeted; }
+	virtual void SetMagicTargeted(bool val) { isMagicTargeted = val; }
 
-	virtual bool GetHide() { return isHide; }
-	virtual void SetHide(bool val) { isHide = val; }
+	virtual bool GetInvincibility() { return isInvincibility; }
+	virtual void SetInvincibility(bool val) { isInvincibility = val; }
+
+	virtual bool GetIced() { return isIced; }
+	virtual void SetIced(bool val) { isIced = val; }
 
 	virtual void AttackSkill(Card * target);
 	virtual void FirstSkill();

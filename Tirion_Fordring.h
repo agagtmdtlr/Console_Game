@@ -4,8 +4,6 @@
 class Tirion_Fordring :
 	public Creature
 {
-protected :
-	int myTurn;
 public:
 	Tirion_Fordring();
 	Tirion_Fordring(BattleField * field);

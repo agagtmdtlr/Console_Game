@@ -16,16 +16,13 @@ BattleField::BattleField()
 	cardsOfHand->reserve(HandMax);
 }
 
-void BattleField::Attack(Card * myCard, Card * yourCard)
+void BattleField::Attack(int turn ,Card * myCard, Card * yourCard)
 {		
-	int turn = nPlayerTurn % 2;
-
 	arrFight[turn] = dynamic_cast<Creature *>(myCard);
 	arrFight[1-turn] = dynamic_cast<Creature *>(yourCard);
-	
 
-	// 선택된 하수인이 공격할 수 있는지 판별한다.
-	if (arrFight[turn]->GetAttackCount() <= 0)
+	// 선택된 하수인이 공격할 수 있는지 판별한다. ( 공격횟수 부족이나 빙결이면 공격 불가 )
+	if (arrFight[turn]->GetAttackCount() <= 0 || arrFight[turn]->GetIced() == true)
 	{
 		cout << "이번 턴에 더 이상 공격할 수 없습니다." << endl;
 		Sleep(1000);
@@ -34,7 +31,7 @@ void BattleField::Attack(Card * myCard, Card * yourCard)
 
 	//  필드에 도발이 존재하면 도발을 우선으로 공격해야 한다.
 	//  현재 상대를 공격할 수 있는지 판별한다
-	if (CheckIsCanAttack(arrFight[1 - turn]) == true)
+	if (CheckIsCanAttack(turn, arrFight[1 - turn]) == true)
 	{
 		// 공격 이벤트 발생
 		arrFight[turn]->ExcuteObserver(EVENT::ATTACK);		
@@ -59,6 +56,27 @@ void BattleField::Attack(Card * myCard, Card * yourCard)
 		Sleep(1000);
 	}	
 }
+
+bool BattleField::CheckIsCanAttack(int turn, Creature * target)
+{
+	if (target->GetInvincibility() == true) return false; // 무적이면 공격 불가
+	if (target->GetAttackTargeted() == false) return false; // 타켓팅 가능한지 확인하기
+
+	bool isAgroOnField = false;
+	int enemyTurn = 1 - turn;
+	for (int i = 0; i < cardsOfField[enemyTurn].size(); i++)
+	{
+		// 필드에는 하수인 밖에 없으므로 RTTI 로 인한 오버헤드르 방지한다.
+		Creature * enemy =
+			(Creature *)(cardsOfField[enemyTurn][i]);
+		// 상대 필드에 어그로가 있고 공격 대상 하수인이 어그로면 공격 가능
+		if (enemy->GetAgro() == true) 
+			return target->GetAgro();
+	}
+
+	return true;
+}
+
 
 void BattleField::Draw(int turn)
 {
@@ -235,7 +253,7 @@ void BattleField::InitGame()
 	{
 		cost[i] = 0;
 		delete User[i];
-		User[i] = new Creature(this, 0, "Player" + i, 0, 5, 0, false, false);
+		User[i] = new Creature(this, 0, "Player" + i, 0, 5, 0, false, false, false);
 	}
 
 	// 안에 자료 비우기
@@ -282,8 +300,10 @@ void BattleField::InitTurn()
 	for (int i = 0; i < cardsOfField[turn].size(); i++)
 	{
 		Creature * card = dynamic_cast<Creature *>(cardsOfField[turn][i]);
-		int count = card->GetAttackCountTurn() - card->GetAttackCount();
-		card->SetAttackCount(count);
+		// 충전해줘야 할 공격 횟수 = 이번턴에 부여할 횟수 - 남아잇는 공격 횟수
+		int attackCount = card->GetAttackCountTurn() - card->GetAttackCount();
+		card->SetAttackCount(attackCount);
+		card->SetAttackTargeted(true);
 	}
 }
 
@@ -306,27 +326,7 @@ bool BattleField::CheckEnd()
 	return false;
 }
 
-bool BattleField::CheckIsCanAttack(Creature * target)
-{
-	if (target->GetHide()) return false;
 
-	bool isAgroOnField = false;
-	int enemyTurn = 1 - nPlayerTurn % 2;
-	for (int i = 0; i < cardsOfField[enemyTurn].size(); i++)
-	{
-		Creature * enemy = 
-			dynamic_cast<Creature *>(cardsOfField[enemyTurn][i]);
-		if (enemy->GetAgro() == true)
-		{
-			isAgroOnField = true;
-			break;
-		}
-	}
-	if (isAgroOnField)
-		return target->GetAgro();
-	else
-		return true;
-}
 
 void BattleField::AddObserver(int turn,const Card * observer)
 {

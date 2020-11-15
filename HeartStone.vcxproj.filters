@@ -19,6 +19,12 @@
     <Filter Include="Header Files\Creature">
       <UniqueIdentifier>{ea54710e-b480-4734-8c2c-901e6ca74de6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Magic">
+      <UniqueIdentifier>{481bfe50-c3e6-4434-8f29-956f64970d6c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Magic">
+      <UniqueIdentifier>{c8b300a8-737a-4446-8730-b5dadb9ec9e1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -66,6 +72,12 @@
     <ClCompile Include="Hero.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Secret.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Humility.cpp">
+      <Filter>Source Files\Magic</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -109,6 +121,12 @@
     </ClInclude>
     <ClInclude Include="Hero.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Secret.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Humility.h">
+      <Filter>Header Files\Magic</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -10,6 +10,7 @@ Hero::Hero(BattleField * field, int cost, string name, int power, int shield, in
 	: Creature(field, cost, name, power, shield, attcount, agro, holy, hide),
 	weapon(weapon)
 {
+	
 }
 
 
@@ -48,8 +49,7 @@ void Hero::Use()
 void Hero::FirstSkill()
 {
 	int turn = battleFieldOfCard->nPlayerTurn % 2;
-	Hero * beforeHero = (Hero *)battleFieldOfCard->User[turn];
-	
+	Hero * beforeHero = (Hero *)battleFieldOfCard->User[turn];	
 	// 이전 영웅이 착용한 무기를 물려받음
 	weapon = beforeHero->GetWeapon();
 	// 이전 영웅 무기 해제
@@ -74,15 +74,22 @@ void Hero::SetAttackCount(int val)
 {
 	nAttackCount += val;
 	if (weapon != nullptr) // 공격시 착용 무기 내구도도 떨어짐
-		weapon->SetDurability(val);
-	// 무기 파괴시 영웅 공격횟수 초기화
-	if (weapon->GetDelete() == true)
-		// 2 cnt weapon destroy when use 1cnt
-		// hero org cnt 1 but we att 1
-		// 2 - 1 - 1 = 0;
-		// 2 cnt weapon destroy when use 2cnt
-		// hero org cnt 1 but we att 2
-		// 2 - 2 - 1  = - 1		
-		nAttackCount = nAttackCount - nAttackCountOrigin;		
-		nAttackCountTurn = nAttackCountOrigin;
+		weapon->SetDurability(val);	
+}
+
+void Hero::SetWeapon(Weapon * val)
+{
+	if (weapon != nullptr)// 무기 장착하기전에 이미 장비되어 있다면 바꿔 낀다.
+	{
+		weapon->SetDelete(true); // 기존무기를 해제하고 쓰레기통으로 보낸다.
+		battleFieldOfCard->garbageCollector[nThisCardUserNumber].push_back(weapon);
+		weapon = nullptr;
+	}
+	weapon = val;
+	// 무기가 장착 됬으므로 영웅의 공격횟수를 무기에 맞춘다.
+	if (weapon != nullptr)
+	{
+		nAttackCountTurn = weapon->GetAttackCount();
+		nAttackCount = nAttackCountTurn;
+	}
 }
